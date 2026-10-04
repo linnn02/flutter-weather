@@ -56,6 +56,20 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
+  /// Load weather for specific coordinates
+  Future<void> loadWeatherByCoords(double lat, double lon) async {
+    _setState(HomeState.loading);
+
+    try {
+      _weather = await _weatherRepository.getCurrentWeatherByCoords(lat, lon);
+      _outfit = _outfitAdvisor.getRecommendation(_weather!);
+      _setState(HomeState.success);
+    } catch (e) {
+      _tryLoadCached();
+      _errorMessage = e.toString().replaceFirst('Exception: ', '');
+    }
+  }
+
   /// Load weather for a specific city name
   Future<void> loadWeatherByCity(String cityName) async {
     if (cityName.trim().isEmpty) return;
