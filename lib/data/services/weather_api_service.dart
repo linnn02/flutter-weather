@@ -7,7 +7,7 @@ import 'package:weather_outfit_advisor/data/models/forecast_api_model.dart';
 /// Service for communicating with OpenWeatherMap API
 class WeatherApiService {
   static const String _baseUrl = 'https://api.openweathermap.org/data/2.5';
-  static const String _apiKey = 'bcdb3f951557d812b028e7341103b745'; 
+  static const String _apiKey = 'bcdb3f951557d812b028e7341103b745';
   static const String _units = 'metric';
   static const String _lang = 'ru';
 

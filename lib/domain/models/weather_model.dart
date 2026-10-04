@@ -47,30 +47,59 @@ class WeatherModel {
   factory WeatherModel.fromJson(Map<String, dynamic> json) {
     return WeatherModel(
       cityName: json['name'] as String? ?? '',
-      countryCode: (json['sys'] as Map<String, dynamic>?)?['country'] as String? ?? '',
-      latitude: ((json['coord'] as Map<String, dynamic>?)?['lat'] as num?)?.toDouble() ?? 0.0,
-      longitude: ((json['coord'] as Map<String, dynamic>?)?['lon'] as num?)?.toDouble() ?? 0.0,
-      temperature: ((json['main'] as Map<String, dynamic>?)?['temp'] as num?)?.toDouble() ?? 0.0,
-      feelsLike: ((json['main'] as Map<String, dynamic>?)?['feels_like'] as num?)?.toDouble() ?? 0.0,
-      tempMin: ((json['main'] as Map<String, dynamic>?)?['temp_min'] as num?)?.toDouble() ?? 0.0,
-      tempMax: ((json['main'] as Map<String, dynamic>?)?['temp_max'] as num?)?.toDouble() ?? 0.0,
-      humidity: (json['main'] as Map<String, dynamic>?)?['humidity'] as int? ?? 0,
-      windSpeed: ((json['wind'] as Map<String, dynamic>?)?['speed'] as num?)?.toDouble() ?? 0.0,
+      countryCode:
+          (json['sys'] as Map<String, dynamic>?)?['country'] as String? ?? '',
+      latitude: ((json['coord'] as Map<String, dynamic>?)?['lat'] as num?)
+              ?.toDouble() ??
+          0.0,
+      longitude: ((json['coord'] as Map<String, dynamic>?)?['lon'] as num?)
+              ?.toDouble() ??
+          0.0,
+      temperature: ((json['main'] as Map<String, dynamic>?)?['temp'] as num?)
+              ?.toDouble() ??
+          0.0,
+      feelsLike:
+          ((json['main'] as Map<String, dynamic>?)?['feels_like'] as num?)
+                  ?.toDouble() ??
+              0.0,
+      tempMin: ((json['main'] as Map<String, dynamic>?)?['temp_min'] as num?)
+              ?.toDouble() ??
+          0.0,
+      tempMax: ((json['main'] as Map<String, dynamic>?)?['temp_max'] as num?)
+              ?.toDouble() ??
+          0.0,
+      humidity:
+          (json['main'] as Map<String, dynamic>?)?['humidity'] as int? ?? 0,
+      windSpeed: ((json['wind'] as Map<String, dynamic>?)?['speed'] as num?)
+              ?.toDouble() ??
+          0.0,
       windDegree: (json['wind'] as Map<String, dynamic>?)?['deg'] as int? ?? 0,
       visibility: json['visibility'] as int? ?? 0,
-      pressure: ((json['main'] as Map<String, dynamic>?)?['pressure'] as num?)?.toInt() ?? 0,
-      clouds: ((json['clouds'] as Map<String, dynamic>?)?['all'] as num?)?.toInt() ?? 0,
+      pressure: ((json['main'] as Map<String, dynamic>?)?['pressure'] as num?)
+              ?.toInt() ??
+          0,
+      clouds: ((json['clouds'] as Map<String, dynamic>?)?['all'] as num?)
+              ?.toInt() ??
+          0,
       weatherMain: ((json['weather'] as List<dynamic>?)?.isNotEmpty == true
-          ? (json['weather'] as List<dynamic>)[0]['main'] as String?
-          : null) ?? '',
-      weatherDescription: ((json['weather'] as List<dynamic>?)?.isNotEmpty == true
-          ? (json['weather'] as List<dynamic>)[0]['description'] as String?
-          : null) ?? '',
+              ? (json['weather'] as List<dynamic>)[0]['main'] as String?
+              : null) ??
+          '',
+      weatherDescription: ((json['weather'] as List<dynamic>?)?.isNotEmpty ==
+                  true
+              ? (json['weather'] as List<dynamic>)[0]['description'] as String?
+              : null) ??
+          '',
       weatherIcon: ((json['weather'] as List<dynamic>?)?.isNotEmpty == true
-          ? (json['weather'] as List<dynamic>)[0]['icon'] as String?
-          : null) ?? '01d',
-      sunrise: ((json['sys'] as Map<String, dynamic>?)?['sunrise'] as num?)?.toInt() ?? 0,
-      sunset: ((json['sys'] as Map<String, dynamic>?)?['sunset'] as num?)?.toInt() ?? 0,
+              ? (json['weather'] as List<dynamic>)[0]['icon'] as String?
+              : null) ??
+          '01d',
+      sunrise: ((json['sys'] as Map<String, dynamic>?)?['sunrise'] as num?)
+              ?.toInt() ??
+          0,
+      sunset: ((json['sys'] as Map<String, dynamic>?)?['sunset'] as num?)
+              ?.toInt() ??
+          0,
       timestamp: DateTime.now(),
     );
   }
@@ -107,6 +136,5 @@ class WeatherModel {
     return now > sunrise && now < sunset;
   }
 
-  String get iconUrl =>
-      'https://openweathermap.org/img/wn/$weatherIcon@2x.png';
+  String get iconUrl => 'https://openweathermap.org/img/wn/$weatherIcon@2x.png';
 }

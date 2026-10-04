@@ -74,7 +74,8 @@ class OutfitPreviewCard extends StatelessWidget {
                 return Expanded(
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 4),
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(10),

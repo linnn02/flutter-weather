@@ -29,7 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
       await homeVm.loadWeatherByLocation();
       if (!mounted) return;
       if (homeVm.weather != null) {
-        context.read<ForecastViewModel>().loadForecast(homeVm.weather!.cityName);
+        context
+            .read<ForecastViewModel>()
+            .loadForecast(homeVm.weather!.cityName);
       }
     });
   }
@@ -53,7 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 forceDark: isForceDark,
                 forceLight: isForceLight,
               )
-            : (isForceDark ? AppColors.darkSunnyGradient : AppColors.sunnyGradient);
+            : (isForceDark
+                ? AppColors.darkSunnyGradient
+                : AppColors.sunnyGradient);
 
         return Scaffold(
           body: AnimatedContainer(
@@ -199,7 +203,10 @@ class _OfflineBanner extends StatelessWidget {
           Expanded(
             child: Text(
               'Автономный режим — сохраненные данные',
-              style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500),
             ),
           ),
         ],

@@ -21,8 +21,10 @@ class IosDailyForecastCard extends StatelessWidget {
     if (daily.isEmpty) return const SizedBox.shrink();
 
     // Find global min and max across all days to normalize horizontal gradient bars
-    double globalMin = daily.map((d) => d.tempMin).reduce((a, b) => a < b ? a : b);
-    double globalMax = daily.map((d) => d.tempMax).reduce((a, b) => a > b ? a : b);
+    double globalMin =
+        daily.map((d) => d.tempMin).reduce((a, b) => a < b ? a : b);
+    double globalMax =
+        daily.map((d) => d.tempMax).reduce((a, b) => a > b ? a : b);
     if (globalMax == globalMin) globalMax += 1;
 
     return IosGlassCard(
@@ -56,7 +58,6 @@ class IosDailyForecastCard extends StatelessWidget {
             thickness: 0.8,
           ),
           const SizedBox(height: 6),
-
           ...daily.asMap().entries.map((entry) {
             final idx = entry.key;
             final item = entry.value;
@@ -66,8 +67,12 @@ class IosDailyForecastCard extends StatelessWidget {
                 : DateFormat('EEE', 'ru').format(item.date).toUpperCase();
 
             // Calculate range bar offsets (0.0 to 1.0)
-            final leftPercent = ((item.tempMin - globalMin) / (globalMax - globalMin)).clamp(0.0, 0.8);
-            final rightPercent = ((item.tempMax - globalMin) / (globalMax - globalMin)).clamp(0.2, 1.0);
+            final leftPercent =
+                ((item.tempMin - globalMin) / (globalMax - globalMin))
+                    .clamp(0.0, 0.8);
+            final rightPercent =
+                ((item.tempMax - globalMin) / (globalMax - globalMin))
+                    .clamp(0.2, 1.0);
 
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 7),
@@ -91,8 +96,8 @@ class IosDailyForecastCard extends StatelessWidget {
                     imageUrl: item.iconUrl,
                     width: 28,
                     height: 28,
-                    errorWidget: (_, __, ___) =>
-                        const Icon(Icons.wb_sunny, size: 24, color: Colors.white),
+                    errorWidget: (_, __, ___) => const Icon(Icons.wb_sunny,
+                        size: 24, color: Colors.white),
                   ),
                   const SizedBox(width: 14),
 
@@ -123,7 +128,9 @@ class IosDailyForecastCard extends StatelessWidget {
                         builder: (context, constraints) {
                           final barWidth = constraints.maxWidth;
                           final left = barWidth * leftPercent;
-                          final width = (barWidth * (rightPercent - leftPercent)).clamp(8.0, barWidth);
+                          final width =
+                              (barWidth * (rightPercent - leftPercent))
+                                  .clamp(8.0, barWidth);
 
                           return Stack(
                             children: [

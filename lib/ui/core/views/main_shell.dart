@@ -67,7 +67,8 @@ class MainShell extends StatelessWidget {
         ? Colors.white.withValues(alpha: 0.15)
         : Colors.black.withValues(alpha: 0.1);
 
-    final activeColor = isDark ? const Color(0xFF64D2FF) : const Color(0xFF007AFF);
+    final activeColor =
+        isDark ? const Color(0xFF64D2FF) : const Color(0xFF007AFF);
     final unselectedColor = isDark
         ? Colors.white.withValues(alpha: 0.45)
         : Colors.black.withValues(alpha: 0.45);
@@ -97,7 +98,8 @@ class MainShell extends StatelessWidget {
                   children: _tabs.asMap().entries.map((entry) {
                     final index = entry.key;
                     final tab = entry.value;
-                    final isSelected = index == (currentIndex < 0 ? 0 : currentIndex);
+                    final isSelected =
+                        index == (currentIndex < 0 ? 0 : currentIndex);
 
                     return Expanded(
                       child: InkWell(
@@ -116,9 +118,12 @@ class MainShell extends StatelessWidget {
                             Text(
                               tab.label,
                               style: TextStyle(
-                                color: isSelected ? activeColor : unselectedColor,
+                                color:
+                                    isSelected ? activeColor : unselectedColor,
                                 fontSize: 10,
-                                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
                               ),
                             ),
                           ],

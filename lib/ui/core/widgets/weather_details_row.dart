@@ -20,7 +20,8 @@ class WeatherDetailsRow extends StatelessWidget {
                 icon: Icons.air,
                 label: 'ВЕТЕР',
                 value: '${weather.windSpeed.toStringAsFixed(1)} м/с',
-                subtext: 'Порывы до ${(weather.windSpeed * 1.3).toStringAsFixed(1)} м/с',
+                subtext:
+                    'Порывы до ${(weather.windSpeed * 1.3).toStringAsFixed(1)} м/с',
               ),
             ),
             const SizedBox(width: 12),
@@ -29,7 +30,8 @@ class WeatherDetailsRow extends StatelessWidget {
                 icon: Icons.water_drop,
                 label: 'ВЛАЖНОСТЬ',
                 value: '${weather.humidity}%',
-                subtext: 'Точка росы сейчас ${(weather.temperature - ((100 - weather.humidity) / 5)).round()}°',
+                subtext:
+                    'Точка росы сейчас ${(weather.temperature - ((100 - weather.humidity) / 5)).round()}°',
               ),
             ),
           ],
@@ -42,7 +44,9 @@ class WeatherDetailsRow extends StatelessWidget {
                 icon: Icons.visibility,
                 label: 'ВИДИМОСТЬ',
                 value: '${(weather.visibility / 1000).toStringAsFixed(1)} км',
-                subtext: weather.visibility >= 10000 ? 'Идеальная видимость' : 'Умеренная видимость',
+                subtext: weather.visibility >= 10000
+                    ? 'Идеальная видимость'
+                    : 'Умеренная видимость',
               ),
             ),
             const SizedBox(width: 12),

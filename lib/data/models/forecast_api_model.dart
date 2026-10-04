@@ -10,8 +10,8 @@ class ForecastApiModel {
 
   factory ForecastApiModel.fromJson(Map<String, dynamic> json) {
     return ForecastApiModel(
-      list: ((json['list'] as List<dynamic>?) ?? [])
-          .cast<Map<String, dynamic>>(),
+      list:
+          ((json['list'] as List<dynamic>?) ?? []).cast<Map<String, dynamic>>(),
       city: (json['city'] as Map<String, dynamic>?) ?? {},
     );
   }

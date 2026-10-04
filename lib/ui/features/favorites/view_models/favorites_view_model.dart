@@ -18,8 +18,7 @@ class FavoritesViewModel extends ChangeNotifier {
   List<String> get favorites => List.unmodifiable(_favorites);
 
   final Map<String, WeatherModel> _weatherCache = {};
-  Map<String, WeatherModel> get weatherCache =>
-      Map.unmodifiable(_weatherCache);
+  Map<String, WeatherModel> get weatherCache => Map.unmodifiable(_weatherCache);
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -67,6 +66,5 @@ class FavoritesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isFavorite(String cityName) =>
-      _favoritesRepository.isFavorite(cityName);
+  bool isFavorite(String cityName) => _favoritesRepository.isFavorite(cityName);
 }

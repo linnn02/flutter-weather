@@ -37,7 +37,8 @@ class _MapScreenState extends State<MapScreen> {
         : const LatLng(43.25, 76.94); // Default: Almaty
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF000000) : const Color(0xFFF2F2F7),
+      backgroundColor:
+          isDark ? const Color(0xFF000000) : const Color(0xFFF2F2F7),
       appBar: AppBar(
         title: Text(
           'Карта погоды',
@@ -53,9 +54,13 @@ class _MapScreenState extends State<MapScreen> {
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isDark ? Colors.white.withValues(alpha: 0.18) : Colors.black.withValues(alpha: 0.08),
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.18)
+                      : Colors.black.withValues(alpha: 0.08),
                 ),
-                child: Icon(Icons.my_location, color: isDark ? Colors.white : const Color(0xFF007AFF), size: 20),
+                child: Icon(Icons.my_location,
+                    color: isDark ? Colors.white : const Color(0xFF007AFF),
+                    size: 20),
               ),
               tooltip: 'Вернуться к текущему городу',
               onPressed: () {
@@ -80,7 +85,8 @@ class _MapScreenState extends State<MapScreen> {
               // OSM tiles
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.weatheroutfit.weather_outfit_advisor',
+                userAgentPackageName:
+                    'com.weatheroutfit.weather_outfit_advisor',
               ),
               // Markers for current + favorites
               MarkerLayer(
@@ -172,7 +178,8 @@ class _MapScreenState extends State<MapScreen> {
               ),
               Row(
                 children: [
-                  const Icon(Icons.location_on, color: Color(0xFFFF3B30), size: 22),
+                  const Icon(Icons.location_on,
+                      color: Color(0xFFFF3B30), size: 22),
                   const SizedBox(width: 8),
                   Text(
                     'Координаты точки',
@@ -200,7 +207,10 @@ class _MapScreenState extends State<MapScreen> {
                   icon: const Icon(Icons.cloud_download, color: Colors.white),
                   label: const Text(
                     'Загрузить погоду в этой точке',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF007AFF),
@@ -213,9 +223,12 @@ class _MapScreenState extends State<MapScreen> {
                   onPressed: () async {
                     Navigator.pop(context);
                     final homeVm = context.read<HomeViewModel>();
-                    await homeVm.loadWeatherByCoords(point.latitude, point.longitude);
+                    await homeVm.loadWeatherByCoords(
+                        point.latitude, point.longitude);
                     if (homeVm.weather != null && context.mounted) {
-                      context.read<ForecastViewModel>().loadForecast(homeVm.weather!.cityName);
+                      context
+                          .read<ForecastViewModel>()
+                          .loadForecast(homeVm.weather!.cityName);
                       context.go('/home');
                     }
                   },
@@ -290,7 +303,9 @@ class _MapLegend extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1C1C1E).withValues(alpha: 0.9) : Colors.white.withValues(alpha: 0.92),
+        color: isDark
+            ? const Color(0xFF1C1C1E).withValues(alpha: 0.9)
+            : Colors.white.withValues(alpha: 0.92),
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(

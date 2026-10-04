@@ -34,8 +34,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
     final bgColor = isDark ? const Color(0xFF000000) : const Color(0xFFF2F2F7);
     final titleColor = isDark ? Colors.white : const Color(0xFF000000);
-    final subtextColor = isDark ? Colors.white.withValues(alpha: 0.6) : const Color(0xFF8E8E93);
-    final addBtnBg = isDark ? Colors.white.withValues(alpha: 0.18) : Colors.black.withValues(alpha: 0.08);
+    final subtextColor =
+        isDark ? Colors.white.withValues(alpha: 0.6) : const Color(0xFF8E8E93);
+    final addBtnBg = isDark
+        ? Colors.white.withValues(alpha: 0.18)
+        : Colors.black.withValues(alpha: 0.08);
     final addBtnIcon = isDark ? Colors.white : const Color(0xFF007AFF);
 
     return Scaffold(
@@ -101,14 +104,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                               icon: const Icon(Icons.add, size: 18),
                               label: const Text('Добавить город'),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: isDark ? const Color(0xFF2C74B3) : const Color(0xFF007AFF),
+                                backgroundColor: isDark
+                                    ? const Color(0xFF2C74B3)
+                                    : const Color(0xFF007AFF),
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
-                              onPressed: () => _showAddCityDialog(context, isDark),
+                              onPressed: () =>
+                                  _showAddCityDialog(context, isDark),
                             ),
                           ],
                         ),
@@ -130,7 +136,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                     forceDark: isDark,
                                     forceLight: !isDark,
                                   )
-                                : (isDark ? AppColors.darkSunnyGradient : AppColors.sunnyGradient);
+                                : (isDark
+                                    ? AppColors.darkSunnyGradient
+                                    : AppColors.sunnyGradient);
 
                             return Dismissible(
                               key: Key(city),
@@ -143,7 +151,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                   color: const Color(0xFFFF3B30),
                                   borderRadius: BorderRadius.circular(16),
                                 ),
-                                child: const Icon(Icons.delete, color: Colors.white, size: 28),
+                                child: const Icon(Icons.delete,
+                                    color: Colors.white, size: 28),
                               ),
                               onDismissed: (_) {
                                 vm.removeFavorite(city);
@@ -182,38 +191,49 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(16),
                                     onTap: () {
-                                      context.read<HomeViewModel>().loadWeatherByCity(city);
+                                      context
+                                          .read<HomeViewModel>()
+                                          .loadWeatherByCity(city);
                                       context.go('/home');
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(16),
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     city,
                                                     style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 22,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       letterSpacing: -0.4,
                                                     ),
                                                   ),
                                                   Text(
                                                     weather != null
-                                                        ? weather.weatherDescription
+                                                        ? weather
+                                                            .weatherDescription
                                                         : 'Загрузка...',
                                                     style: TextStyle(
-                                                      color: Colors.white.withValues(alpha: 0.85),
+                                                      color: Colors.white
+                                                          .withValues(
+                                                              alpha: 0.85),
                                                       fontSize: 13,
-                                                      fontWeight: FontWeight.w400,
+                                                      fontWeight:
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
                                                 ],
@@ -222,7 +242,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                                 Text(
                                                   'Макс.: ${settings.formatTemp(weather.tempMax)}, Мин.: ${settings.formatTemp(weather.tempMin)}',
                                                   style: TextStyle(
-                                                    color: Colors.white.withValues(alpha: 0.85),
+                                                    color: Colors.white
+                                                        .withValues(
+                                                            alpha: 0.85),
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w400,
                                                   ),
@@ -231,7 +253,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                           ),
                                           if (weather != null)
                                             Text(
-                                              settings.formatTemp(weather.temperature),
+                                              settings.formatTemp(
+                                                  weather.temperature),
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 48,
@@ -285,14 +308,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           decoration: InputDecoration(
             hintText: 'Название города...',
             hintStyle: TextStyle(
-              color: isDark ? Colors.white.withValues(alpha: 0.5) : Colors.black.withValues(alpha: 0.4),
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.5)
+                  : Colors.black.withValues(alpha: 0.4),
             ),
             prefixIcon: Icon(
               Icons.search,
               color: isDark ? Colors.white70 : Colors.black54,
             ),
             filled: true,
-            fillColor: isDark ? Colors.white.withValues(alpha: 0.08) : const Color(0xFFF2F2F7),
+            fillColor: isDark
+                ? Colors.white.withValues(alpha: 0.08)
+                : const Color(0xFFF2F2F7),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,
@@ -309,15 +336,19 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             child: Text(
               'Отмена',
               style: TextStyle(
-                color: isDark ? Colors.white.withValues(alpha: 0.7) : Colors.black54,
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.7)
+                    : Colors.black54,
               ),
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: isDark ? const Color(0xFF2C74B3) : const Color(0xFF007AFF),
+              backgroundColor:
+                  isDark ? const Color(0xFF2C74B3) : const Color(0xFF007AFF),
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
             ),
             onPressed: () {
               _addCity(context, controller.text);

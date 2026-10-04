@@ -15,6 +15,5 @@ class FavoritesRepository {
   Future<void> removeFavorite(String cityName) =>
       _localStorageService.removeFavoriteCity(cityName);
 
-  bool isFavorite(String cityName) =>
-      _localStorageService.isFavorite(cityName);
+  bool isFavorite(String cityName) => _localStorageService.isFavorite(cityName);
 }

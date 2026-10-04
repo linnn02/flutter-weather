@@ -65,7 +65,9 @@ class _ForecastScreenState extends State<ForecastScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        homeVm.weather != null ? homeVm.weather!.cityName : 'Прогноз',
+                        homeVm.weather != null
+                            ? homeVm.weather!.cityName
+                            : 'Прогноз',
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.7),
                           fontSize: 14,
@@ -87,10 +89,10 @@ class _ForecastScreenState extends State<ForecastScreen> {
                   ),
                 ),
               ),
-
               if (vm.state == ForecastState.loading)
                 const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator(color: Colors.white)),
+                  child: Center(
+                      child: CircularProgressIndicator(color: Colors.white)),
                 )
               else if (vm.state == ForecastState.error)
                 SliverFillRemaining(
@@ -111,7 +113,8 @@ class _ForecastScreenState extends State<ForecastScreen> {
                         IosHourlyForecastCard(
                           hourly: vm.hourlyForecast,
                           settings: settings,
-                          conditionSummary: 'Почасовой график температуры и вероятности осадков на 24 часа.',
+                          conditionSummary:
+                              'Почасовой график температуры и вероятности осадков на 24 часа.',
                         ),
                         const SizedBox(height: 14),
 

@@ -33,7 +33,8 @@ class LocalStorageService {
     return jsonDecode(raw) as Map<String, dynamic>;
   }
 
-  bool isCacheValid(String cityName, {Duration maxAge = const Duration(minutes: 30)}) {
+  bool isCacheValid(String cityName,
+      {Duration maxAge = const Duration(minutes: 30)}) {
     final key = '${_weatherCacheKey}_$cityName';
     final time = _prefs.getInt('${key}_time');
     if (time == null) return false;
@@ -41,7 +42,8 @@ class LocalStorageService {
     return age < maxAge.inMilliseconds;
   }
 
-  Future<void> cacheForecast(String cityName, List<Map<String, dynamic>> data) async {
+  Future<void> cacheForecast(
+      String cityName, List<Map<String, dynamic>> data) async {
     final key = '${_forecastCacheKey}_$cityName';
     await _prefs.setString(key, jsonEncode(data));
   }

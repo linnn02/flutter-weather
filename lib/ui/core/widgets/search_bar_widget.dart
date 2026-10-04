@@ -102,7 +102,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                       shape: BoxShape.circle,
                       color: Colors.white.withValues(alpha: 0.25),
                     ),
-                    child: const Icon(Icons.close, size: 14, color: Colors.white),
+                    child:
+                        const Icon(Icons.close, size: 14, color: Colors.white),
                   ),
                 ),
               if (_hasText)
@@ -110,7 +111,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                   onTap: _submit,
                   child: Container(
                     margin: const EdgeInsets.only(right: 8),
-                    child: const Icon(Icons.arrow_forward_ios, size: 14, color: Colors.white),
+                    child: const Icon(Icons.arrow_forward_ios,
+                        size: 14, color: Colors.white),
                   ),
                 ),
             ],

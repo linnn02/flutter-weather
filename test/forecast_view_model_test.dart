@@ -11,10 +11,13 @@ class FakeWeatherForecastRepository implements WeatherRepository {
   int callCount = 0;
 
   @override
-  Future<WeatherModel> getCurrentWeather(String cityName) async => throw UnimplementedError();
+  Future<WeatherModel> getCurrentWeather(String cityName) async =>
+      throw UnimplementedError();
 
   @override
-  Future<WeatherModel> getCurrentWeatherByCoords(double lat, double lon) async => throw UnimplementedError();
+  Future<WeatherModel> getCurrentWeatherByCoords(
+          double lat, double lon) async =>
+      throw UnimplementedError();
 
   @override
   Future<List<HourlyForecastModel>> getHourlyForecast(String cityName) async {
@@ -82,7 +85,8 @@ void main() {
       expect(vm.errorMessage, isNotNull);
     });
 
-    test('loadForecast does not re-fetch same city if already loaded', () async {
+    test('loadForecast does not re-fetch same city if already loaded',
+        () async {
       await vm.loadForecast('Алматы');
       await vm.loadForecast('Алматы');
 

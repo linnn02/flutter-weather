@@ -15,12 +15,17 @@ class SettingsScreen extends StatelessWidget {
         (vm.themeMode == ThemeMode.system &&
             MediaQuery.of(context).platformBrightness == Brightness.dark);
 
-    final scaffoldBg = isDark ? const Color(0xFF000000) : const Color(0xFFF2F2F7);
+    final scaffoldBg =
+        isDark ? const Color(0xFF000000) : const Color(0xFFF2F2F7);
     final titleColor = isDark ? Colors.white : const Color(0xFF000000);
-    final sectionTitleColor = isDark ? Colors.white.withValues(alpha: 0.5) : const Color(0xFF6C6C70);
+    final sectionTitleColor =
+        isDark ? Colors.white.withValues(alpha: 0.5) : const Color(0xFF6C6C70);
     final rowTextColor = isDark ? Colors.white : const Color(0xFF000000);
-    final rowSubtextColor = isDark ? Colors.white.withValues(alpha: 0.6) : const Color(0xFF8E8E93);
-    final dividerColor = isDark ? Colors.white.withValues(alpha: 0.1) : const Color(0xFFC6C6C8).withValues(alpha: 0.4);
+    final rowSubtextColor =
+        isDark ? Colors.white.withValues(alpha: 0.6) : const Color(0xFF8E8E93);
+    final dividerColor = isDark
+        ? Colors.white.withValues(alpha: 0.1)
+        : const Color(0xFFC6C6C8).withValues(alpha: 0.4);
 
     return Scaffold(
       backgroundColor: scaffoldBg,
@@ -50,7 +55,8 @@ class SettingsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _IosSectionHeader('ОФОРМЛЕНИЕ И ТЕМА', color: sectionTitleColor),
+                    _IosSectionHeader('ОФОРМЛЕНИЕ И ТЕМА',
+                        color: sectionTitleColor),
                     IosGlassCard(
                       padding: const EdgeInsets.all(12),
                       child: Column(
@@ -60,7 +66,8 @@ class SettingsScreen extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(Icons.palette_outlined, color: Color(0xFF007AFF), size: 22),
+                                  const Icon(Icons.palette_outlined,
+                                      color: Color(0xFF007AFF), size: 22),
                                   const SizedBox(width: 12),
                                   Text(
                                     'Тема приложения',
@@ -74,7 +81,9 @@ class SettingsScreen extends StatelessWidget {
                               ),
                               DropdownButton<ThemeMode>(
                                 value: vm.themeMode,
-                                dropdownColor: isDark ? const Color(0xFF1E1E24) : Colors.white,
+                                dropdownColor: isDark
+                                    ? const Color(0xFF1E1E24)
+                                    : Colors.white,
                                 underline: const SizedBox.shrink(),
                                 icon: Icon(
                                   Icons.unfold_more,
@@ -84,15 +93,18 @@ class SettingsScreen extends StatelessWidget {
                                 items: [
                                   DropdownMenuItem(
                                     value: ThemeMode.system,
-                                    child: Text('Авто', style: TextStyle(color: rowTextColor)),
+                                    child: Text('Авто',
+                                        style: TextStyle(color: rowTextColor)),
                                   ),
                                   DropdownMenuItem(
                                     value: ThemeMode.light,
-                                    child: Text('Светлая', style: TextStyle(color: rowTextColor)),
+                                    child: Text('Светлая',
+                                        style: TextStyle(color: rowTextColor)),
                                   ),
                                   DropdownMenuItem(
                                     value: ThemeMode.dark,
-                                    child: Text('Темная', style: TextStyle(color: rowTextColor)),
+                                    child: Text('Темная',
+                                        style: TextStyle(color: rowTextColor)),
                                   ),
                                 ],
                                 onChanged: (mode) {
@@ -107,15 +119,18 @@ class SettingsScreen extends StatelessWidget {
                     const SizedBox(height: 18),
 
                     // Section 2: Units
-                    _IosSectionHeader('ЕДИНИЦЫ ИЗМЕРЕНИЯ', color: sectionTitleColor),
+                    _IosSectionHeader('ЕДИНИЦЫ ИЗМЕРЕНИЯ',
+                        color: sectionTitleColor),
                     IosGlassCard(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 6),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
                             children: [
-                              const Icon(Icons.thermostat, color: Color(0xFFFF9500), size: 22),
+                              const Icon(Icons.thermostat,
+                                  color: Color(0xFFFF9500), size: 22),
                               const SizedBox(width: 12),
                               Text(
                                 'Шкала температуры',
@@ -132,11 +147,16 @@ class SettingsScreen extends StatelessWidget {
                               GestureDetector(
                                 onTap: () => vm.setTemperatureUnit(true),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 14, vertical: 6),
                                   decoration: BoxDecoration(
                                     color: vm.isCelsius
                                         ? const Color(0xFF007AFF)
-                                        : (isDark ? Colors.white.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.06)),
+                                        : (isDark
+                                            ? Colors.white
+                                                .withValues(alpha: 0.1)
+                                            : Colors.black
+                                                .withValues(alpha: 0.06)),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Text(
@@ -145,7 +165,9 @@ class SettingsScreen extends StatelessWidget {
                                       color: vm.isCelsius
                                           ? Colors.white
                                           : rowTextColor,
-                                      fontWeight: vm.isCelsius ? FontWeight.bold : FontWeight.normal,
+                                      fontWeight: vm.isCelsius
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
                                     ),
                                   ),
                                 ),
@@ -154,11 +176,16 @@ class SettingsScreen extends StatelessWidget {
                               GestureDetector(
                                 onTap: () => vm.setTemperatureUnit(false),
                                 child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 14, vertical: 6),
                                   decoration: BoxDecoration(
                                     color: !vm.isCelsius
                                         ? const Color(0xFF007AFF)
-                                        : (isDark ? Colors.white.withValues(alpha: 0.1) : Colors.black.withValues(alpha: 0.06)),
+                                        : (isDark
+                                            ? Colors.white
+                                                .withValues(alpha: 0.1)
+                                            : Colors.black
+                                                .withValues(alpha: 0.06)),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Text(
@@ -167,7 +194,9 @@ class SettingsScreen extends StatelessWidget {
                                       color: !vm.isCelsius
                                           ? Colors.white
                                           : rowTextColor,
-                                      fontWeight: !vm.isCelsius ? FontWeight.bold : FontWeight.normal,
+                                      fontWeight: !vm.isCelsius
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
                                     ),
                                   ),
                                 ),
@@ -190,7 +219,10 @@ class SettingsScreen extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  const Icon(Icons.notifications_active_outlined, color: Color(0xFF34C759), size: 22),
+                                  const Icon(
+                                      Icons.notifications_active_outlined,
+                                      color: Color(0xFF34C759),
+                                      size: 22),
                                   const SizedBox(width: 12),
                                   Text(
                                     'Ежедневный совет',
@@ -213,21 +245,29 @@ class SettingsScreen extends StatelessWidget {
                             Divider(color: dividerColor, height: 16),
                             ListTile(
                               contentPadding: EdgeInsets.zero,
-                              leading: Icon(Icons.schedule, color: rowSubtextColor, size: 20),
+                              leading: Icon(Icons.schedule,
+                                  color: rowSubtextColor, size: 20),
                               title: Text(
                                 'Время отправки',
-                                style: TextStyle(color: rowTextColor, fontSize: 15),
+                                style: TextStyle(
+                                    color: rowTextColor, fontSize: 15),
                               ),
                               trailing: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: isDark ? Colors.white.withValues(alpha: 0.12) : const Color(0xFF007AFF).withValues(alpha: 0.12),
+                                  color: isDark
+                                      ? Colors.white.withValues(alpha: 0.12)
+                                      : const Color(0xFF007AFF)
+                                          .withValues(alpha: 0.12),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Text(
                                   '${vm.notificationTime.hour.toString().padLeft(2, '0')}:${vm.notificationTime.minute.toString().padLeft(2, '0')}',
                                   style: TextStyle(
-                                    color: isDark ? const Color(0xFF64D2FF) : const Color(0xFF007AFF),
+                                    color: isDark
+                                        ? const Color(0xFF64D2FF)
+                                        : const Color(0xFF007AFF),
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -255,13 +295,26 @@ class SettingsScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(16),
                       child: Column(
                         children: [
-                          _buildIosInfoRow('Приложение', 'Weather & Outfit Advisor (iOS)', rowTextColor, rowSubtextColor),
+                          _buildIosInfoRow(
+                              'Приложение',
+                              'Weather & Outfit Advisor (iOS)',
+                              rowTextColor,
+                              rowSubtextColor),
                           Divider(color: dividerColor, height: 16),
-                          _buildIosInfoRow('Версия', '1.0.0 (Build 2026.10)', rowTextColor, rowSubtextColor),
+                          _buildIosInfoRow('Версия', '1.0.0 (Build 2026.10)',
+                              rowTextColor, rowSubtextColor),
                           Divider(color: dividerColor, height: 16),
-                          _buildIosInfoRow('Метеосервер', 'OpenWeatherMap API 2.5', rowTextColor, rowSubtextColor),
+                          _buildIosInfoRow(
+                              'Метеосервер',
+                              'OpenWeatherMap API 2.5',
+                              rowTextColor,
+                              rowSubtextColor),
                           Divider(color: dividerColor, height: 16),
-                          _buildIosInfoRow('Картография', 'OpenStreetMap / flutter_map', rowTextColor, rowSubtextColor),
+                          _buildIosInfoRow(
+                              'Картография',
+                              'OpenStreetMap / flutter_map',
+                              rowTextColor,
+                              rowSubtextColor),
                         ],
                       ),
                     ),
@@ -300,7 +353,8 @@ class _IosSectionHeader extends StatelessWidget {
   }
 }
 
-Widget _buildIosInfoRow(String label, String value, Color textColor, Color subtextColor) {
+Widget _buildIosInfoRow(
+    String label, String value, Color textColor, Color subtextColor) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [

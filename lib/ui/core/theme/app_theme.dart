@@ -82,7 +82,8 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: brightness,
-      scaffoldBackgroundColor: isDark ? const Color(0xFF080D14) : const Color(0xFF3A88E9),
+      scaffoldBackgroundColor:
+          isDark ? const Color(0xFF080D14) : const Color(0xFF3A88E9),
       fontFamily: 'SF Pro Display',
       colorScheme: ColorScheme.fromSeed(
         seedColor: const Color(0xFF3A88E9),
@@ -113,7 +114,8 @@ class AppTheme {
   }
 
   /// Calculates dynamic background gradient taking into account Weather condition and ThemeMode
-  static List<Color> getWeatherGradient(String weatherMain, bool isDay, {bool forceDark = false, bool forceLight = false}) {
+  static List<Color> getWeatherGradient(String weatherMain, bool isDay,
+      {bool forceDark = false, bool forceLight = false}) {
     final condition = weatherMain.toLowerCase();
     final effectiveIsDark = forceDark ? true : (forceLight ? false : !isDay);
 

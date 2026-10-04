@@ -35,10 +35,8 @@ class SettingsViewModel extends ChangeNotifier {
       _ => ThemeMode.system,
     };
 
-    _isCelsius =
-        _localStorageService.getTemperatureUnit() == 'celsius';
-    _notificationsEnabled =
-        _localStorageService.getNotificationsEnabled();
+    _isCelsius = _localStorageService.getTemperatureUnit() == 'celsius';
+    _notificationsEnabled = _localStorageService.getNotificationsEnabled();
 
     final timeStr = _localStorageService.getNotificationTime();
     final parts = timeStr.split(':');

@@ -72,14 +72,36 @@ class OutfitAdvisorUseCase {
         category: OutfitCategory.veryCold,
         summary: 'Экстремальный мороз! Одевайтесь как в Арктику',
         items: [
-          ClothingItem(name: 'Термобельё', emoji: '🧣', description: 'Базовый слой из шерсти или синтетики'),
-          ClothingItem(name: 'Свитер', emoji: '🧶', description: 'Толстый шерстяной свитер'),
-          ClothingItem(name: 'Пуховик', emoji: '🧥', description: 'Очень тёплый пуховик или парка -30°C'),
-          ClothingItem(name: 'Шапка-ушанка', emoji: '🎿', description: 'Закрывает уши и лоб'),
-          ClothingItem(name: 'Шарф', emoji: '🧣', description: 'Обмотайте лицо'),
-          ClothingItem(name: 'Варежки', emoji: '🧤', description: 'Варежки теплее перчаток'),
-          ClothingItem(name: 'Валенки или унты', emoji: '👢', description: 'Утеплённая обувь'),
-          ClothingItem(name: 'Термоноски', emoji: '🧦', description: 'Шерстяные термоноски'),
+          ClothingItem(
+              name: 'Термобельё',
+              emoji: '🧣',
+              description: 'Базовый слой из шерсти или синтетики'),
+          ClothingItem(
+              name: 'Свитер',
+              emoji: '🧶',
+              description: 'Толстый шерстяной свитер'),
+          ClothingItem(
+              name: 'Пуховик',
+              emoji: '🧥',
+              description: 'Очень тёплый пуховик или парка -30°C'),
+          ClothingItem(
+              name: 'Шапка-ушанка',
+              emoji: '🎿',
+              description: 'Закрывает уши и лоб'),
+          ClothingItem(
+              name: 'Шарф', emoji: '🧣', description: 'Обмотайте лицо'),
+          ClothingItem(
+              name: 'Варежки',
+              emoji: '🧤',
+              description: 'Варежки теплее перчаток'),
+          ClothingItem(
+              name: 'Валенки или унты',
+              emoji: '👢',
+              description: 'Утеплённая обувь'),
+          ClothingItem(
+              name: 'Термоноски',
+              emoji: '🧦',
+              description: 'Шерстяные термоноски'),
         ],
         tips: [
           'Не выходите без крайней необходимости',
@@ -93,13 +115,34 @@ class OutfitAdvisorUseCase {
         category: OutfitCategory.cold,
         summary: 'Сильный мороз — одевайтесь тепло',
         items: [
-          ClothingItem(name: 'Термобельё', emoji: '🩲', description: 'Тёплое нижнее бельё'),
-          ClothingItem(name: 'Флисовый свитер', emoji: '🧶', description: 'Промежуточный утепляющий слой'),
-          ClothingItem(name: 'Зимняя куртка', emoji: '🧥', description: 'Тёплая куртка с наполнителем'),
-          ClothingItem(name: 'Зимняя шапка', emoji: '🎩', description: 'Обязательно покрывайте голову'),
-          ClothingItem(name: 'Перчатки', emoji: '🧤', description: 'Тёплые перчатки или варежки'),
-          ClothingItem(name: 'Зимние ботинки', emoji: '👢', description: 'Утеплённая непромокаемая обувь'),
-          ClothingItem(name: 'Тёплые брюки', emoji: '👖', description: 'Утеплённые штаны'),
+          ClothingItem(
+              name: 'Термобельё',
+              emoji: '🩲',
+              description: 'Тёплое нижнее бельё'),
+          ClothingItem(
+              name: 'Флисовый свитер',
+              emoji: '🧶',
+              description: 'Промежуточный утепляющий слой'),
+          ClothingItem(
+              name: 'Зимняя куртка',
+              emoji: '🧥',
+              description: 'Тёплая куртка с наполнителем'),
+          ClothingItem(
+              name: 'Зимняя шапка',
+              emoji: '🎩',
+              description: 'Обязательно покрывайте голову'),
+          ClothingItem(
+              name: 'Перчатки',
+              emoji: '🧤',
+              description: 'Тёплые перчатки или варежки'),
+          ClothingItem(
+              name: 'Зимние ботинки',
+              emoji: '👢',
+              description: 'Утеплённая непромокаемая обувь'),
+          ClothingItem(
+              name: 'Тёплые брюки',
+              emoji: '👖',
+              description: 'Утеплённые штаны'),
         ],
         tips: [
           'Надевайте шапку — через голову уходит 30% тепла',
@@ -112,11 +155,26 @@ class OutfitAdvisorUseCase {
         category: OutfitCategory.cool,
         summary: 'Прохладно — нужна куртка',
         items: [
-          ClothingItem(name: 'Свитер или толстовка', emoji: '👕', description: 'Плотный верхний слой'),
-          ClothingItem(name: 'Лёгкая куртка', emoji: '🧥', description: 'Ветровка или демисезонная куртка'),
-          ClothingItem(name: 'Лёгкая шапка', emoji: '🧢', description: 'По желанию, если ветрено'),
-          ClothingItem(name: 'Джинсы или брюки', emoji: '👖', description: 'Плотные брюки'),
-          ClothingItem(name: 'Кроссовки или ботинки', emoji: '👟', description: 'Закрытая обувь'),
+          ClothingItem(
+              name: 'Свитер или толстовка',
+              emoji: '👕',
+              description: 'Плотный верхний слой'),
+          ClothingItem(
+              name: 'Лёгкая куртка',
+              emoji: '🧥',
+              description: 'Ветровка или демисезонная куртка'),
+          ClothingItem(
+              name: 'Лёгкая шапка',
+              emoji: '🧢',
+              description: 'По желанию, если ветрено'),
+          ClothingItem(
+              name: 'Джинсы или брюки',
+              emoji: '👖',
+              description: 'Плотные брюки'),
+          ClothingItem(
+              name: 'Кроссовки или ботинки',
+              emoji: '👟',
+              description: 'Закрытая обувь'),
         ],
         tips: [
           'Возьмите куртку на случай похолодания',
@@ -128,10 +186,20 @@ class OutfitAdvisorUseCase {
         category: OutfitCategory.mild,
         summary: 'Комфортная температура',
         items: [
-          ClothingItem(name: 'Футболка или рубашка', emoji: '👕', description: 'Лёгкий верхний слой'),
-          ClothingItem(name: 'Лёгкая кофта', emoji: '🧣', description: 'На случай если прохладно'),
-          ClothingItem(name: 'Джинсы или брюки', emoji: '👖', description: 'Обычные брюки'),
-          ClothingItem(name: 'Кроссовки', emoji: '👟', description: 'Удобная обувь'),
+          ClothingItem(
+              name: 'Футболка или рубашка',
+              emoji: '👕',
+              description: 'Лёгкий верхний слой'),
+          ClothingItem(
+              name: 'Лёгкая кофта',
+              emoji: '🧣',
+              description: 'На случай если прохладно'),
+          ClothingItem(
+              name: 'Джинсы или брюки',
+              emoji: '👖',
+              description: 'Обычные брюки'),
+          ClothingItem(
+              name: 'Кроссовки', emoji: '👟', description: 'Удобная обувь'),
         ],
         tips: [
           'Идеальная погода для прогулок',
@@ -143,10 +211,22 @@ class OutfitAdvisorUseCase {
         category: OutfitCategory.warm,
         summary: 'Тепло и приятно',
         items: [
-          ClothingItem(name: 'Футболка', emoji: '👕', description: 'Лёгкая хлопковая футболка'),
-          ClothingItem(name: 'Лёгкие брюки или шорты', emoji: '🩳', description: 'По настроению'),
-          ClothingItem(name: 'Кроссовки или сандалии', emoji: '👟', description: 'Лёгкая обувь'),
-          ClothingItem(name: 'Солнцезащитные очки', emoji: '😎', description: 'Защита от солнца'),
+          ClothingItem(
+              name: 'Футболка',
+              emoji: '👕',
+              description: 'Лёгкая хлопковая футболка'),
+          ClothingItem(
+              name: 'Лёгкие брюки или шорты',
+              emoji: '🩳',
+              description: 'По настроению'),
+          ClothingItem(
+              name: 'Кроссовки или сандалии',
+              emoji: '👟',
+              description: 'Лёгкая обувь'),
+          ClothingItem(
+              name: 'Солнцезащитные очки',
+              emoji: '😎',
+              description: 'Защита от солнца'),
         ],
         tips: [
           'Используйте солнцезащитный крем',
@@ -159,11 +239,23 @@ class OutfitAdvisorUseCase {
         category: OutfitCategory.hot,
         summary: 'Жарко! Одевайтесь легко',
         items: [
-          ClothingItem(name: 'Лёгкая футболка', emoji: '👕', description: 'Дышащая ткань'),
+          ClothingItem(
+              name: 'Лёгкая футболка',
+              emoji: '👕',
+              description: 'Дышащая ткань'),
           ClothingItem(name: 'Шорты', emoji: '🩳', description: 'Лёгкие шорты'),
-          ClothingItem(name: 'Сандалии или шлёпанцы', emoji: '🩴', description: 'Открытая обувь'),
-          ClothingItem(name: 'Шляпа или кепка', emoji: '🧢', description: 'Защита от солнца'),
-          ClothingItem(name: 'Солнцезащитные очки', emoji: '😎', description: 'Обязательно!'),
+          ClothingItem(
+              name: 'Сандалии или шлёпанцы',
+              emoji: '🩴',
+              description: 'Открытая обувь'),
+          ClothingItem(
+              name: 'Шляпа или кепка',
+              emoji: '🧢',
+              description: 'Защита от солнца'),
+          ClothingItem(
+              name: 'Солнцезащитные очки',
+              emoji: '😎',
+              description: 'Обязательно!'),
         ],
         tips: [
           'Носите светлую одежду — она отражает солнце',
@@ -182,9 +274,18 @@ class OutfitAdvisorUseCase {
             emoji: '🧥',
             description: 'Водонепроницаемый верхний слой',
           ),
-          const ClothingItem(name: 'Зонт', emoji: '☂️', description: 'Компактный или складной'),
-          const ClothingItem(name: 'Водонепроницаемая обувь', emoji: '👢', description: 'Резиновые сапоги или влагостойкие ботинки'),
-          const ClothingItem(name: 'Запасные носки', emoji: '🧦', description: 'На случай промокания'),
+          const ClothingItem(
+              name: 'Зонт',
+              emoji: '☂️',
+              description: 'Компактный или складной'),
+          const ClothingItem(
+              name: 'Водонепроницаемая обувь',
+              emoji: '👢',
+              description: 'Резиновые сапоги или влагостойкие ботинки'),
+          const ClothingItem(
+              name: 'Запасные носки',
+              emoji: '🧦',
+              description: 'На случай промокания'),
         ],
         tips: [
           'Промокшая одежда охлаждает быстрее — будьте осторожны',
@@ -197,12 +298,27 @@ class OutfitAdvisorUseCase {
         category: OutfitCategory.snowy,
         summary: 'Снегопад — одевайтесь тепло и непромокаемо',
         items: [
-          ClothingItem(name: 'Термобельё', emoji: '🩲', description: 'Базовый тёплый слой'),
-          ClothingItem(name: 'Зимняя куртка', emoji: '🧥', description: 'Тёплая и водонепроницаемая'),
-          ClothingItem(name: 'Зимние сапоги', emoji: '👢', description: 'Высокие непромокаемые сапоги'),
+          ClothingItem(
+              name: 'Термобельё',
+              emoji: '🩲',
+              description: 'Базовый тёплый слой'),
+          ClothingItem(
+              name: 'Зимняя куртка',
+              emoji: '🧥',
+              description: 'Тёплая и водонепроницаемая'),
+          ClothingItem(
+              name: 'Зимние сапоги',
+              emoji: '👢',
+              description: 'Высокие непромокаемые сапоги'),
           ClothingItem(name: 'Шапка', emoji: '🎩', description: 'Обязательно'),
-          ClothingItem(name: 'Перчатки', emoji: '🧤', description: 'Непромокаемые перчатки'),
-          ClothingItem(name: 'Зонт или капюшон', emoji: '☂️', description: 'Защита от снега сверху'),
+          ClothingItem(
+              name: 'Перчатки',
+              emoji: '🧤',
+              description: 'Непромокаемые перчатки'),
+          ClothingItem(
+              name: 'Зонт или капюшон',
+              emoji: '☂️',
+              description: 'Защита от снега сверху'),
         ],
         tips: [
           'Осторожно — скользко!',
@@ -215,9 +331,18 @@ class OutfitAdvisorUseCase {
         category: OutfitCategory.stormy,
         summary: 'Гроза! Лучше остаться дома',
         items: [
-          ClothingItem(name: 'Надёжный дождевик', emoji: '🧥', description: 'Полностью водонепроницаемый'),
-          ClothingItem(name: 'Резиновые сапоги', emoji: '👢', description: 'Высокие, непромокаемые'),
-          ClothingItem(name: 'Плотная одежда', emoji: '👕', description: 'Несколько слоёв'),
+          ClothingItem(
+              name: 'Надёжный дождевик',
+              emoji: '🧥',
+              description: 'Полностью водонепроницаемый'),
+          ClothingItem(
+              name: 'Резиновые сапоги',
+              emoji: '👢',
+              description: 'Высокие, непромокаемые'),
+          ClothingItem(
+              name: 'Плотная одежда',
+              emoji: '👕',
+              description: 'Несколько слоёв'),
         ],
         tips: [
           'По возможности оставайтесь дома',

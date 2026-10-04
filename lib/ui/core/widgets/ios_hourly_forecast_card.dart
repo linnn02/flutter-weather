@@ -65,9 +65,8 @@ class IosHourlyForecastCard extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final item = hourly[index];
                   final isNow = index == 0;
-                  final timeLabel = isNow
-                      ? 'Сейчас'
-                      : DateFormat('HH').format(item.dateTime);
+                  final timeLabel =
+                      isNow ? 'Сейчас' : DateFormat('HH').format(item.dateTime);
 
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +74,8 @@ class IosHourlyForecastCard extends StatelessWidget {
                       Text(
                         timeLabel,
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: isNow ? 1.0 : 0.8),
+                          color:
+                              Colors.white.withValues(alpha: isNow ? 1.0 : 0.8),
                           fontSize: 14,
                           fontWeight: isNow ? FontWeight.w600 : FontWeight.w500,
                         ),
@@ -84,8 +84,8 @@ class IosHourlyForecastCard extends StatelessWidget {
                         imageUrl: item.iconUrl,
                         width: 32,
                         height: 32,
-                        errorWidget: (_, __, ___) =>
-                            const Icon(Icons.wb_sunny, size: 28, color: Colors.white),
+                        errorWidget: (_, __, ___) => const Icon(Icons.wb_sunny,
+                            size: 28, color: Colors.white),
                       ),
                       if (item.precipitationProbability > 0.15)
                         Text(

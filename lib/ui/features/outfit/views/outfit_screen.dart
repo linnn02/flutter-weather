@@ -101,7 +101,8 @@ class OutfitScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (context, index) => _IosClothingTile(item: outfit.items[index]),
+                    (context, index) =>
+                        _IosClothingTile(item: outfit.items[index]),
                     childCount: outfit.items.length,
                   ),
                 ),
@@ -241,7 +242,8 @@ class _IosTipsCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.lightbulb_outline, size: 16, color: Color(0xFFFFD60A)),
+              const Icon(Icons.lightbulb_outline,
+                  size: 16, color: Color(0xFFFFD60A)),
               const SizedBox(width: 6),
               Text(
                 'СОВЕТЫ ДНЯ',
@@ -261,11 +263,13 @@ class _IosTipsCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('• ', style: TextStyle(color: Color(0xFF64D2FF), fontSize: 16)),
+                  const Text('• ',
+                      style: TextStyle(color: Color(0xFF64D2FF), fontSize: 16)),
                   Expanded(
                     child: Text(
                       tip,
-                      style: const TextStyle(color: Colors.white, fontSize: 14, height: 1.3),
+                      style: const TextStyle(
+                          color: Colors.white, fontSize: 14, height: 1.3),
                     ),
                   ),
                 ],

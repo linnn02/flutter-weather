@@ -29,16 +29,21 @@ class FakeFavoritesWeatherRepository implements WeatherRepository {
   WeatherModel? weatherToReturn;
 
   @override
-  Future<WeatherModel> getCurrentWeather(String cityName) async => weatherToReturn!;
+  Future<WeatherModel> getCurrentWeather(String cityName) async =>
+      weatherToReturn!;
 
   @override
-  Future<WeatherModel> getCurrentWeatherByCoords(double lat, double lon) async => throw UnimplementedError();
+  Future<WeatherModel> getCurrentWeatherByCoords(
+          double lat, double lon) async =>
+      throw UnimplementedError();
 
   @override
-  Future<List<HourlyForecastModel>> getHourlyForecast(String cityName) async => [];
+  Future<List<HourlyForecastModel>> getHourlyForecast(String cityName) async =>
+      [];
 
   @override
-  Future<List<DailyForecastModel>> getDailyForecast(String cityName) async => [];
+  Future<List<DailyForecastModel>> getDailyForecast(String cityName) async =>
+      [];
 
   @override
   WeatherModel? getLastCachedWeather() => null;

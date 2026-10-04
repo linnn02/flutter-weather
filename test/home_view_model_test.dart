@@ -25,10 +25,12 @@ class FakeWeatherRepository implements WeatherRepository {
   }
 
   @override
-  Future<List<HourlyForecastModel>> getHourlyForecast(String cityName) async => [];
+  Future<List<HourlyForecastModel>> getHourlyForecast(String cityName) async =>
+      [];
 
   @override
-  Future<List<DailyForecastModel>> getDailyForecast(String cityName) async => [];
+  Future<List<DailyForecastModel>> getDailyForecast(String cityName) async =>
+      [];
 
   @override
   WeatherModel? getLastCachedWeather() => lastCachedToReturn;

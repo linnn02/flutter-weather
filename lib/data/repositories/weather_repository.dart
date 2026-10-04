@@ -65,9 +65,7 @@ class WeatherRepository {
   ) async {
     try {
       final apiModel = await _apiService.fetchForecastByCity(cityName);
-      final hourly = apiModel.list
-          .map(HourlyForecastModel.fromJson)
-          .toList();
+      final hourly = apiModel.list.map(HourlyForecastModel.fromJson).toList();
 
       // Cache forecast
       await _localStorageService.cacheForecast(
