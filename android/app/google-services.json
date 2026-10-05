@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "918891547993",
+    "project_id": "weather-outfit-advisor",
+    "storage_bucket": "weather-outfit-advisor.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918891547993:android:eebea10893c05ecd989048",
+        "android_client_info": {
+          "package_name": "com.example.weather_outfit_advisor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA28IyMWl43bmIYZYQ7BjM9WWW05NnMSMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
