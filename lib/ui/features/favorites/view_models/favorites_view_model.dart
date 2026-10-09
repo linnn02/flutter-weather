@@ -23,10 +23,26 @@ class FavoritesViewModel extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  void loadFavorites() {
+  /// Очистить список избранных и кэш погоды при смене пользователя
+  void reset() {
+    _favorites = [];
+    _weatherCache.clear();
+    notifyListeners();
+  }
+
+  /// Загрузка избранных городов с синхронизацией из Firestore при наличии сети
+  Future<void> loadFavorites() async {
     _favorites = _favoritesRepository.getFavorites();
     notifyListeners();
-    _loadWeatherForFavorites();
+
+    // Синхронизируем из облака в фоне
+    try {
+      final synced = await _favoritesRepository.syncFromCloud();
+      _favorites = synced;
+      notifyListeners();
+    } catch (_) {}
+
+    await _loadWeatherForFavorites();
   }
 
   Future<void> _loadWeatherForFavorites() async {
@@ -47,8 +63,8 @@ class FavoritesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addFavorite(String cityName) async {
-    await _favoritesRepository.addFavorite(cityName);
+  Future<void> addFavorite(String cityName, {double? lat, double? lon}) async {
+    await _favoritesRepository.addFavorite(cityName, lat: lat, lon: lon);
     _favorites = _favoritesRepository.getFavorites();
     notifyListeners();
     // Load weather for the new city

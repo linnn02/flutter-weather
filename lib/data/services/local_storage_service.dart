@@ -58,26 +58,33 @@ class LocalStorageService {
 
   // ─── Favorites ────────────────────────────────────────────────────────────
 
-  List<String> getFavoriteCities() {
-    return _prefs.getStringList(_favoritesKey) ?? [];
+  String _getFavoritesKey(String? userId) =>
+      userId != null && userId.isNotEmpty ? '${_favoritesKey}_$userId' : _favoritesKey;
+
+  List<String> getFavoriteCities({String? userId}) {
+    return _prefs.getStringList(_getFavoritesKey(userId)) ?? [];
   }
 
-  Future<void> addFavoriteCity(String cityName) async {
-    final cities = getFavoriteCities();
+  Future<void> setFavoriteCities(List<String> cities, {String? userId}) async {
+    await _prefs.setStringList(_getFavoritesKey(userId), cities);
+  }
+
+  Future<void> addFavoriteCity(String cityName, {String? userId}) async {
+    final cities = getFavoriteCities(userId: userId);
     if (!cities.contains(cityName)) {
       cities.add(cityName);
-      await _prefs.setStringList(_favoritesKey, cities);
+      await _prefs.setStringList(_getFavoritesKey(userId), cities);
     }
   }
 
-  Future<void> removeFavoriteCity(String cityName) async {
-    final cities = getFavoriteCities();
+  Future<void> removeFavoriteCity(String cityName, {String? userId}) async {
+    final cities = getFavoriteCities(userId: userId);
     cities.remove(cityName);
-    await _prefs.setStringList(_favoritesKey, cities);
+    await _prefs.setStringList(_getFavoritesKey(userId), cities);
   }
 
-  bool isFavorite(String cityName) {
-    return getFavoriteCities().contains(cityName);
+  bool isFavorite(String cityName, {String? userId}) {
+    return getFavoriteCities(userId: userId).contains(cityName);
   }
 
   // ─── Settings ─────────────────────────────────────────────────────────────
@@ -86,6 +93,12 @@ class LocalStorageService {
 
   Future<void> setThemeMode(String mode) async {
     await _prefs.setString(_themeModeKey, mode);
+  }
+
+  String getLanguage() => _prefs.getString('language') ?? 'ru';
+
+  Future<void> setLanguage(String lang) async {
+    await _prefs.setString('language', lang);
   }
 
   String getTemperatureUnit() =>

@@ -47,8 +47,10 @@ class HomeViewModel extends ChangeNotifier {
         _outfit = _outfitAdvisor.getRecommendation(_weather!);
         _setState(HomeState.success);
       } else {
-        // Try last cached city
-        _tryLoadCached();
+        // На десктопе Windows GPS датчик обычно отсутствует.
+        // Загружаем актуальную погоду из сети для последнего города пользователя (или Алматы)
+        final lastCity = _weatherRepository.getLastCachedWeather()?.cityName ?? 'Алматы';
+        await loadWeatherByCity(lastCity);
       }
     } catch (e) {
       _tryLoadCached();

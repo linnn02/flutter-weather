@@ -171,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                               // 5. 2x2 Metric Details Grid (Wind, Humidity, Visibility, Pressure)
                               WeatherDetailsRow(weather: vm.weather!),
-                              const SizedBox(height: 36),
+                              const SizedBox(height: 100),
                             ],
                           ),
                         ),
