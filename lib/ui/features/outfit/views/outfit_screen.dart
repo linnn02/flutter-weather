@@ -112,12 +112,12 @@ class OutfitScreen extends StatelessWidget {
               if (outfit.tips.isNotEmpty)
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 80),
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
                     child: _IosTipsCard(tips: outfit.tips),
                   ),
                 )
               else
-                const SliverToBoxAdapter(child: SizedBox(height: 80)),
+                const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
           ),
         ),

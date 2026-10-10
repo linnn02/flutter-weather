@@ -106,7 +106,7 @@ class _ForecastScreenState extends State<ForecastScreen> {
               else if (vm.state == ForecastState.success)
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 80),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
                     child: Column(
                       children: [
                         // Hourly Forecast

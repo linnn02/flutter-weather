@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:weather_outfit_advisor/ui/features/settings/view_models/settings_view_model.dart';
+import 'package:weather_outfit_advisor/ui/features/auth/auth_view_model.dart';
 import 'package:weather_outfit_advisor/ui/core/widgets/ios_glass_card.dart';
 
 /// Settings screen designed with iOS Inset Grouped style, fully adaptive to Light & Dark themes
@@ -10,6 +12,7 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vm = context.watch<SettingsViewModel>();
+    final authVm = context.watch<AuthViewModel>();
 
     final isDark = vm.themeMode == ThemeMode.dark ||
         (vm.themeMode == ThemeMode.system &&
@@ -44,6 +47,127 @@ class SettingsScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     letterSpacing: -0.5,
                   ),
+                ),
+              ),
+            ),
+
+            // Section 0: Account & Profile
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _IosSectionHeader('ПРОФИЛЬ И СИНХРОНИЗАЦИЯ',
+                        color: sectionTitleColor),
+                    IosGlassCard(
+                      padding: const EdgeInsets.all(14),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 44,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Color(0xFF007AFF),
+                                      Color(0xFF5856D6)
+                                    ],
+                                  ),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    authVm.displayName?.isNotEmpty == true
+                                        ? authVm.displayName![0].toUpperCase()
+                                        : (authVm.currentUser?.email?.isNotEmpty == true
+                                            ? authVm.currentUser!.email![0].toUpperCase()
+                                            : '?'),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      authVm.displayName?.isNotEmpty == true
+                                          ? authVm.displayName!
+                                          : 'Пользователь',
+                                      style: TextStyle(
+                                        color: rowTextColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      authVm.currentUser?.email ?? 'Гостевой режим',
+                                      style: TextStyle(
+                                        color: rowSubtextColor,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.logout,
+                                  color: Color(0xFFFF3B30),
+                                  size: 22,
+                                ),
+                                tooltip: 'Выйти',
+                                onPressed: () async {
+                                  final confirm = await showDialog<bool>(
+                                    context: context,
+                                    builder: (ctx) => AlertDialog(
+                                      title: const Text('Выход из аккаунта'),
+                                      content: const Text(
+                                          'Вы уверены, что хотите выйти? Локальные данные сохранятся.'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(ctx, false),
+                                          child: const Text('Отмена'),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                const Color(0xFFFF3B30),
+                                            foregroundColor: Colors.white,
+                                          ),
+                                          onPressed: () =>
+                                              Navigator.pop(ctx, true),
+                                          child: const Text('Выйти'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+
+                                  if (confirm == true && context.mounted) {
+                                    await authVm.logout();
+                                    if (context.mounted) {
+                                      context.go('/login');
+                                    }
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                  ],
                 ),
               ),
             ),
@@ -318,7 +442,7 @@ class SettingsScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 100),
                   ],
                 ),
               ),

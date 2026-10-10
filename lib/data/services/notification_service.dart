@@ -1,16 +1,31 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-/// Service for managing local push notifications
+/// Фоновый обработчик сообщений FCM
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  if (kDebugMode) {
+    debugPrint('Handling a background message: ${message.messageId}');
+  }
+}
+
+/// Сервис для управления локальными и push-уведомлениями (FCM)
 class NotificationService {
   static const int _dailyWeatherId = 1;
-  final FlutterLocalNotificationsPlugin _plugin =
+  final FlutterLocalNotificationsPlugin _localPlugin =
       FlutterLocalNotificationsPlugin();
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+
+  String? _fcmToken;
+  String? get fcmToken => _fcmToken;
 
   Future<void> init() async {
     tz.initializeTimeZones();
 
+    // 1. Инициализация локальных уведомлений
     const androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings(
@@ -24,7 +39,53 @@ class NotificationService {
       iOS: iosSettings,
     );
 
-    await _plugin.initialize(initSettings);
+    await _localPlugin.initialize(initSettings);
+
+    // 2. Инициализация Firebase Cloud Messaging (FCM)
+    try {
+      await _initFirebaseMessaging();
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('FCM init notice: $e');
+      }
+    }
+  }
+
+  Future<void> _initFirebaseMessaging() async {
+    // Запрос разрешений на отправку push
+    final settings = await _messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      if (kDebugMode) {
+        debugPrint('Пользователь разрешил push-уведомления');
+      }
+    }
+
+    // Получаем токен устройства для отправки персональных push
+    try {
+      _fcmToken = await _messaging.getToken();
+      if (kDebugMode) {
+        debugPrint('FCM Device Token: $_fcmToken');
+      }
+    } catch (_) {}
+
+    // Слушаем входящие push-уведомления в foreground (когда приложение открыто)
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      final notification = message.notification;
+      if (notification != null) {
+        showImmediateNotification(
+          title: notification.title ?? 'Weather & Outfit',
+          body: notification.body ?? 'Проверьте погоду перед выходом',
+        );
+      }
+    });
+
+    // Устанавливаем фоновый обработчик
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 
   Future<void> scheduleDailyWeatherNotification({
@@ -33,7 +94,7 @@ class NotificationService {
     required int hour,
     required int minute,
   }) async {
-    await _plugin.cancelAll();
+    await _localPlugin.cancelAll();
 
     final now = tz.TZDateTime.now(tz.local);
     var scheduledDate = tz.TZDateTime(
@@ -49,7 +110,7 @@ class NotificationService {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
 
-    await _plugin.zonedSchedule(
+    await _localPlugin.zonedSchedule(
       _dailyWeatherId,
       title,
       body,
@@ -76,7 +137,7 @@ class NotificationService {
     required String title,
     required String body,
   }) async {
-    await _plugin.show(
+    await _localPlugin.show(
       0,
       title,
       body,
@@ -94,6 +155,6 @@ class NotificationService {
   }
 
   Future<void> cancelAll() async {
-    await _plugin.cancelAll();
+    await _localPlugin.cancelAll();
   }
 }
