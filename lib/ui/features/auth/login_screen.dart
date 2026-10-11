@@ -48,9 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final titleColor = isDark ? Colors.white : const Color(0xFF000000);
     final subtextColor =
         isDark ? Colors.white.withValues(alpha: 0.6) : const Color(0xFF8E8E93);
-    final fieldBg = isDark
-        ? Colors.white.withValues(alpha: 0.08)
-        : Colors.white;
+    final fieldBg =
+        isDark ? Colors.white.withValues(alpha: 0.08) : Colors.white;
 
     return Scaffold(
       backgroundColor: scaffoldBg,
@@ -79,7 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFF007AFF).withValues(alpha: 0.3),
+                            color:
+                                const Color(0xFF007AFF).withValues(alpha: 0.3),
                             blurRadius: 16,
                             offset: const Offset(0, 8),
                           ),

@@ -56,9 +56,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final titleColor = isDark ? Colors.white : const Color(0xFF000000);
     final subtextColor =
         isDark ? Colors.white.withValues(alpha: 0.6) : const Color(0xFF8E8E93);
-    final fieldBg = isDark
-        ? Colors.white.withValues(alpha: 0.08)
-        : Colors.white;
+    final fieldBg =
+        isDark ? Colors.white.withValues(alpha: 0.08) : Colors.white;
 
     return Scaffold(
       backgroundColor: scaffoldBg,
@@ -183,8 +182,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               borderSide: BorderSide.none,
                             ),
                           ),
-                          validator: (v) =>
-                              (v == null || v.trim().isEmpty) ? 'Введите имя' : null,
+                          validator: (v) => (v == null || v.trim().isEmpty)
+                              ? 'Введите имя'
+                              : null,
                         ),
                         const SizedBox(height: 14),
 
@@ -221,7 +221,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           validator: (v) {
-                            if (v == null || v.trim().isEmpty) return 'Введите email';
+                            if (v == null || v.trim().isEmpty)
+                              return 'Введите email';
                             if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                 .hasMatch(v.trim())) {
                               return 'Введите корректный email';

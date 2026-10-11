@@ -23,11 +23,14 @@ class AuthViewModel extends ChangeNotifier {
   })  : _authRepository = authRepository,
         _userRepository = userRepository {
     _currentUser = _authRepository.currentUser;
-    _status = _currentUser != null ? AuthStatus.authenticated : AuthStatus.unauthenticated;
+    _status = _currentUser != null
+        ? AuthStatus.authenticated
+        : AuthStatus.unauthenticated;
     if (_currentUser != null) {
       loadUserProfile();
     }
-    _authSubscription = _authRepository.authStateChanges.listen(_onAuthStateChanged);
+    _authSubscription =
+        _authRepository.authStateChanges.listen(_onAuthStateChanged);
   }
 
   dynamic _authSubscription;
@@ -41,7 +44,8 @@ class AuthViewModel extends ChangeNotifier {
     if (_userProfile?.name != null && _userProfile!.name.trim().isNotEmpty) {
       return _userProfile!.name.trim();
     }
-    if (_currentUser?.displayName != null && _currentUser!.displayName!.trim().isNotEmpty) {
+    if (_currentUser?.displayName != null &&
+        _currentUser!.displayName!.trim().isNotEmpty) {
       return _currentUser!.displayName!.trim();
     }
     return null;
@@ -54,11 +58,13 @@ class AuthViewModel extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   bool get isLoading => _status == AuthStatus.loading;
-  bool get isAuthenticated => _status == AuthStatus.authenticated && _currentUser != null;
+  bool get isAuthenticated =>
+      _status == AuthStatus.authenticated && _currentUser != null;
 
   void _onAuthStateChanged(User? user) {
     _currentUser = user;
-    _status = user != null ? AuthStatus.authenticated : AuthStatus.unauthenticated;
+    _status =
+        user != null ? AuthStatus.authenticated : AuthStatus.unauthenticated;
     if (user != null) {
       loadUserProfile();
     } else {
@@ -224,7 +230,9 @@ class AuthViewModel extends ChangeNotifier {
       final credential = await _authRepository.signInWithGoogle();
       if (credential == null) {
         // Отмена пользователем
-        _status = _currentUser != null ? AuthStatus.authenticated : AuthStatus.unauthenticated;
+        _status = _currentUser != null
+            ? AuthStatus.authenticated
+            : AuthStatus.unauthenticated;
         notifyListeners();
         return false;
       }

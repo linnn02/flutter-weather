@@ -58,8 +58,9 @@ class LocalStorageService {
 
   // ─── Favorites ────────────────────────────────────────────────────────────
 
-  String _getFavoritesKey(String? userId) =>
-      userId != null && userId.isNotEmpty ? '${_favoritesKey}_$userId' : _favoritesKey;
+  String _getFavoritesKey(String? userId) => userId != null && userId.isNotEmpty
+      ? '${_favoritesKey}_$userId'
+      : _favoritesKey;
 
   List<String> getFavoriteCities({String? userId}) {
     return _prefs.getStringList(_getFavoritesKey(userId)) ?? [];

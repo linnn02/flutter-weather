@@ -13,7 +13,9 @@ class FirestoreService {
 
   /// Создать или обновить профиль пользователя
   Future<void> createUserProfile(UserModel user) async {
-    await _usersCollection.doc(user.uid).set(user.toMap(), SetOptions(merge: true));
+    await _usersCollection
+        .doc(user.uid)
+        .set(user.toMap(), SetOptions(merge: true));
   }
 
   /// Получить профиль пользователя
@@ -24,7 +26,8 @@ class FirestoreService {
   }
 
   /// Обновить отдельные настройки пользователя в документе
-  Future<void> updateUserSettings(String uid, Map<String, dynamic> settings) async {
+  Future<void> updateUserSettings(
+      String uid, Map<String, dynamic> settings) async {
     await _usersCollection.doc(uid).set(settings, SetOptions(merge: true));
   }
 
@@ -45,7 +48,9 @@ class FirestoreService {
   Future<void> addFavorite(String uid, FavoriteCityModel favorite) async {
     // В качестве id документа используем нормализованное имя города, чтобы избежать дубликатов
     final docId = favorite.cityName.toLowerCase().replaceAll(' ', '_');
-    await _favoritesCollection(uid).doc(docId).set(favorite.toMap(), SetOptions(merge: true));
+    await _favoritesCollection(uid)
+        .doc(docId)
+        .set(favorite.toMap(), SetOptions(merge: true));
   }
 
   /// Удалить избранный город

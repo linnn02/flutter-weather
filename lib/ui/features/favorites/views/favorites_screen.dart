@@ -124,8 +124,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         onRefresh: () async => vm.loadFavorites(),
                         child: ListView.builder(
                           physics: const BouncingScrollPhysics(),
-                          padding:
-                              const EdgeInsets.fromLTRB(16, 8, 16, 100),
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 100),
                           itemCount: vm.favorites.length,
                           itemBuilder: (context, index) {
                             final city = vm.favorites[index];

@@ -90,7 +90,8 @@ class SettingsViewModel extends ChangeNotifier {
 
         // Уведомления
         _notificationsEnabled = user.notificationsEnabled;
-        await _localStorageService.setNotificationsEnabled(user.notificationsEnabled);
+        await _localStorageService
+            .setNotificationsEnabled(user.notificationsEnabled);
 
         notifyListeners();
       }

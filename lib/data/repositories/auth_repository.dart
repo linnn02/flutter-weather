@@ -32,8 +32,7 @@ class AuthRepository {
         password: password,
       );
 
-  Future<UserCredential?> signInWithGoogle() =>
-      _authService.signInWithGoogle();
+  Future<UserCredential?> signInWithGoogle() => _authService.signInWithGoogle();
 
   Future<void> logout() => _authService.signOut();
 }

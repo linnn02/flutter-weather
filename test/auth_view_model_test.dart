@@ -98,7 +98,8 @@ class MockUserRepository implements UserRepository {
   }
 
   @override
-  Future<void> updateUserSettings(String uid, Map<String, dynamic> settings) async {
+  Future<void> updateUserSettings(
+      String uid, Map<String, dynamic> settings) async {
     if (users.containsKey(uid)) {
       final current = users[uid]!;
       users[uid] = current.copyWith(
@@ -186,7 +187,8 @@ void main() {
       expect(authViewModel.errorMessage, contains('не менее 6 символов'));
     });
 
-    test('register succeeds, creates user in auth and profile in firestore', () async {
+    test('register succeeds, creates user in auth and profile in firestore',
+        () async {
       final result = await authViewModel.register(
         name: 'Алихан',
         email: 'user@test.com',
@@ -207,7 +209,9 @@ void main() {
       expect(profile?.theme, 'system');
     });
 
-    test('loginWithGoogle succeeds and creates profile in firestore if not exists', () async {
+    test(
+        'loginWithGoogle succeeds and creates profile in firestore if not exists',
+        () async {
       final result = await authViewModel.loginWithGoogle();
 
       expect(result, isTrue);
@@ -221,7 +225,8 @@ void main() {
       expect(profile?.name, 'Google Пользователь');
     });
 
-    test('logout clears current user and changes state to unauthenticated', () async {
+    test('logout clears current user and changes state to unauthenticated',
+        () async {
       await authViewModel.login(
         email: 'test@example.com',
         password: 'password123',

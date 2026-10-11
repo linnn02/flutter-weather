@@ -49,7 +49,8 @@ class HomeViewModel extends ChangeNotifier {
       } else {
         // На десктопе Windows GPS датчик обычно отсутствует.
         // Загружаем актуальную погоду из сети для последнего города пользователя (или Алматы)
-        final lastCity = _weatherRepository.getLastCachedWeather()?.cityName ?? 'Алматы';
+        final lastCity =
+            _weatherRepository.getLastCachedWeather()?.cityName ?? 'Алматы';
         await loadWeatherByCity(lastCity);
       }
     } catch (e) {

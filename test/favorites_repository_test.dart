@@ -11,7 +11,8 @@ class MockLocalStorageService implements LocalStorageService {
   List<String> getFavoriteCities({String? userId}) => List.from(cities);
 
   @override
-  Future<void> setFavoriteCities(List<String> newCities, {String? userId}) async {
+  Future<void> setFavoriteCities(List<String> newCities,
+      {String? userId}) async {
     cities = List.from(newCities);
   }
 
@@ -26,7 +27,8 @@ class MockLocalStorageService implements LocalStorageService {
   }
 
   @override
-  bool isFavorite(String cityName, {String? userId}) => cities.contains(cityName);
+  bool isFavorite(String cityName, {String? userId}) =>
+      cities.contains(cityName);
 
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
@@ -77,7 +79,9 @@ void main() {
       expect(repository.getFavorites(), ['Алматы', 'Астана']);
     });
 
-    test('addFavorite saves to local storage and syncs to firestore for authenticated user', () async {
+    test(
+        'addFavorite saves to local storage and syncs to firestore for authenticated user',
+        () async {
       await repository.addFavorite('Шымкент', lat: 42.3, lon: 69.6);
 
       expect(mockLocalStorage.isFavorite('Шымкент'), isTrue);
@@ -95,7 +99,8 @@ void main() {
       expect(cloudCities.any((c) => c.cityName == 'Караганда'), isFalse);
     });
 
-    test('syncFromCloud merges cloud cities into local storage and vice versa', () async {
+    test('syncFromCloud merges cloud cities into local storage and vice versa',
+        () async {
       mockLocalStorage.cities = ['ЛокальныйГород'];
       await mockFirestore.addFavorite(
         'test_user_123',
@@ -110,7 +115,9 @@ void main() {
       expect(cloudCities.any((c) => c.cityName == 'ЛокальныйГород'), isTrue);
     });
 
-    test('unauthenticated user works strictly with local storage without errors', () async {
+    test(
+        'unauthenticated user works strictly with local storage without errors',
+        () async {
       repository.updateCurrentUser(null);
 
       await repository.addFavorite('Павлодар');

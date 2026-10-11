@@ -64,7 +64,8 @@ class FavoritesRepository {
 
   /// Добавить город в избранное (локально + облако если авторизован)
   Future<void> addFavorite(String cityName, {double? lat, double? lon}) async {
-    await _localStorageService.addFavoriteCity(cityName, userId: _currentUserId);
+    await _localStorageService.addFavoriteCity(cityName,
+        userId: _currentUserId);
 
     final uid = _currentUserId;
     final firestore = _firestoreService;
@@ -85,7 +86,8 @@ class FavoritesRepository {
 
   /// Удалить город из избранного (локально + облако если авторизован)
   Future<void> removeFavorite(String cityName) async {
-    await _localStorageService.removeFavoriteCity(cityName, userId: _currentUserId);
+    await _localStorageService.removeFavoriteCity(cityName,
+        userId: _currentUserId);
 
     final uid = _currentUserId;
     final firestore = _firestoreService;

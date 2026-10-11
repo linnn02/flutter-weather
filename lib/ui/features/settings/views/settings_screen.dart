@@ -82,8 +82,11 @@ class SettingsScreen extends StatelessWidget {
                                   child: Text(
                                     authVm.displayName?.isNotEmpty == true
                                         ? authVm.displayName![0].toUpperCase()
-                                        : (authVm.currentUser?.email?.isNotEmpty == true
-                                            ? authVm.currentUser!.email![0].toUpperCase()
+                                        : (authVm.currentUser?.email
+                                                    ?.isNotEmpty ==
+                                                true
+                                            ? authVm.currentUser!.email![0]
+                                                .toUpperCase()
                                             : '?'),
                                     style: const TextStyle(
                                       color: Colors.white,
@@ -110,7 +113,8 @@ class SettingsScreen extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      authVm.currentUser?.email ?? 'Гостевой режим',
+                                      authVm.currentUser?.email ??
+                                          'Гостевой режим',
                                       style: TextStyle(
                                         color: rowSubtextColor,
                                         fontSize: 13,
