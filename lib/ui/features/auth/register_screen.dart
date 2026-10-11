@@ -221,8 +221,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           validator: (v) {
-                            if (v == null || v.trim().isEmpty)
+                            if (v == null || v.trim().isEmpty) {
                               return 'Введите email';
+                            }
                             if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                 .hasMatch(v.trim())) {
                               return 'Введите корректный email';
