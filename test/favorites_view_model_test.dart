@@ -9,10 +9,16 @@ class FakeFavoritesRepository implements FavoritesRepository {
   List<String> favorites = [];
 
   @override
+  void updateCurrentUser(String? uid) {}
+
+  @override
   List<String> getFavorites() => favorites;
 
   @override
-  Future<void> addFavorite(String cityName) async {
+  Future<List<String>> syncFromCloud() async => favorites;
+
+  @override
+  Future<void> addFavorite(String cityName, {double? lat, double? lon}) async {
     if (!favorites.contains(cityName)) favorites.add(cityName);
   }
 
