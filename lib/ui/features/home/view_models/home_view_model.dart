@@ -33,17 +33,30 @@ class HomeViewModel extends ChangeNotifier {
   String _searchCity = '';
   String get searchCity => _searchCity;
 
-  /// Load weather for current GPS location
+  /// Load weather for current GPS location.
+  /// Uses reverse geocoding to get the city name (not district).
   Future<void> loadWeatherByLocation() async {
     _setState(HomeState.loading);
 
     try {
       final position = await _locationService.getCurrentPosition();
       if (position != null) {
-        _weather = await _weatherRepository.getCurrentWeatherByCoords(
+        // Try to resolve the proper city name via reverse geocoding first
+        final cityName = await _locationService.getCityNameByCoords(
           position.latitude,
           position.longitude,
         );
+
+        if (cityName != null && cityName.isNotEmpty) {
+          // Load by resolved city name so the display name is correct
+          _weather = await _weatherRepository.getCurrentWeather(cityName);
+        } else {
+          // Fallback: load by raw coordinates (city name comes from OWM API)
+          _weather = await _weatherRepository.getCurrentWeatherByCoords(
+            position.latitude,
+            position.longitude,
+          );
+        }
         _outfit = _outfitAdvisor.getRecommendation(_weather!);
         _setState(HomeState.success);
       } else {
@@ -59,12 +72,23 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
+  /// Refresh — always re-detect location (does not use cached city)
+  Future<void> refresh() async {
+    await loadWeatherByLocation();
+  }
+
   /// Load weather for specific coordinates
   Future<void> loadWeatherByCoords(double lat, double lon) async {
     _setState(HomeState.loading);
 
     try {
-      _weather = await _weatherRepository.getCurrentWeatherByCoords(lat, lon);
+      // Try to resolve city name via reverse geocoding first
+      final cityName = await _locationService.getCityNameByCoords(lat, lon);
+      if (cityName != null && cityName.isNotEmpty) {
+        _weather = await _weatherRepository.getCurrentWeather(cityName);
+      } else {
+        _weather = await _weatherRepository.getCurrentWeatherByCoords(lat, lon);
+      }
       _outfit = _outfitAdvisor.getRecommendation(_weather!);
       _setState(HomeState.success);
     } catch (e) {

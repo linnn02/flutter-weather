@@ -39,12 +39,17 @@ class FakeWeatherRepository implements WeatherRepository {
 // Manual Fake for LocationService
 class FakeLocationService implements LocationService {
   Position? positionToReturn;
+  String? cityNameToReturn;
 
   @override
   Future<Position?> getCurrentPosition() async => positionToReturn;
 
   @override
   Future<bool> hasPermission() async => true;
+
+  @override
+  Future<String?> getCityNameByCoords(double lat, double lon) async =>
+      cityNameToReturn;
 }
 
 void main() {

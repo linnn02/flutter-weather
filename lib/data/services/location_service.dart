@@ -1,7 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 /// Service for device GPS location
 class LocationService {
+  final Geocoding _geocoding = Geocoding();
+
   /// Request permission and get current position
   Future<Position?> getCurrentPosition() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
@@ -34,5 +38,31 @@ class LocationService {
     final permission = await Geolocator.checkPermission();
     return permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse;
+  }
+
+  /// Get city name (not district/suburb) by coordinates using reverse geocoding.
+  /// Returns the locality (город), then adminArea as fallback.
+  Future<String?> getCityNameByCoords(double lat, double lon) async {
+    try {
+      final placemarks = await _geocoding.placemarkFromCoordinates(lat, lon);
+      if (placemarks.isEmpty) return null;
+      final p = placemarks.first;
+      // locality = город, subAdministrativeArea = район/область
+      // Prefer locality (actual city name) over district
+      final city =
+          p.locality?.isNotEmpty == true ? p.locality : p.administrativeArea;
+      if (kDebugMode) {
+        debugPrint(
+          'Geocoding: locality=${p.locality}, subAdmin=${p.subAdministrativeArea}, '
+          'admin=${p.administrativeArea} => city=$city',
+        );
+      }
+      return city;
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('Reverse geocoding error: $e');
+      }
+      return null;
+    }
   }
 }
