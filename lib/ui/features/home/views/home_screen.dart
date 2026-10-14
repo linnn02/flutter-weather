@@ -76,11 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
                 backgroundColor: Colors.black.withValues(alpha: 0.5),
                 onRefresh: () async {
+                  await vm.refresh();
+                  if (!context.mounted) return;
                   if (vm.weather != null) {
-                    await vm.loadWeatherByCity(vm.weather!.cityName);
                     await forecastVm.loadForecast(vm.weather!.cityName);
-                  } else {
-                    await vm.loadWeatherByLocation();
                   }
                 },
                 child: CustomScrollView(
