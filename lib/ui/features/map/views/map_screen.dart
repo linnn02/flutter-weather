@@ -20,6 +20,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   final MapController _mapController = MapController();
   LatLng? _selectedPoint;
+  bool _isLoadingWeather = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class _MapScreenState extends State<MapScreen> {
           ),
         ),
         actions: [
+          // Button: go to current location marker
           if (currentWeather != null)
             IconButton(
               icon: Container(
@@ -65,6 +67,8 @@ class _MapScreenState extends State<MapScreen> {
               tooltip: 'Вернуться к текущему городу',
               onPressed: () {
                 _mapController.move(center, 10);
+                // Clear selected point when returning to current location
+                setState(() => _selectedPoint = null);
               },
             ),
         ],
@@ -77,6 +81,7 @@ class _MapScreenState extends State<MapScreen> {
               initialCenter: center,
               initialZoom: 10,
               onTap: (tapPosition, point) {
+                // Keep the selected point visible and show the bottom sheet
                 setState(() => _selectedPoint = point);
                 _showLocationWeatherSheet(context, point, settings, isDark);
               },
@@ -119,7 +124,7 @@ class _MapScreenState extends State<MapScreen> {
                       ),
                     ),
                   ),
-                  // Tapped point
+                  // Tapped point — stays until user taps elsewhere or clears
                   if (_selectedPoint != null)
                     Marker(
                       point: _selectedPoint!,
@@ -135,15 +140,61 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ],
           ),
+
+          // Loading overlay when fetching weather for tapped point
+          if (_isLoadingWeather)
+            Container(
+              color: Colors.black.withValues(alpha: 0.35),
+              child: const Center(
+                child: CircularProgressIndicator(color: Colors.white),
+              ),
+            ),
+
           // Legend
           Positioned(
             bottom: 76,
             left: 16,
             child: _MapLegend(isDark: isDark),
           ),
+
+          // Hint at bottom when point selected (dismissible)
+          if (_selectedPoint != null && !_isLoadingWeather)
+            Positioned(
+              bottom: 130,
+              left: 16,
+              right: 16,
+              child: _SelectedPointBanner(
+                point: _selectedPoint!,
+                isDark: isDark,
+                onClear: () => setState(() => _selectedPoint = null),
+                onLoad: () => _loadWeatherForPoint(context, _selectedPoint!),
+              ),
+            ),
         ],
       ),
     );
+  }
+
+  Future<void> _loadWeatherForPoint(BuildContext context, LatLng point) async {
+    setState(() => _isLoadingWeather = true);
+    try {
+      final homeVm = context.read<HomeViewModel>();
+      await homeVm.loadWeatherByCoords(point.latitude, point.longitude);
+      if (homeVm.weather != null && context.mounted) {
+        context
+            .read<ForecastViewModel>()
+            .loadForecast(homeVm.weather!.cityName);
+        setState(() {
+          _selectedPoint = null;
+          _isLoadingWeather = false;
+        });
+        context.go('/home');
+      } else {
+        setState(() => _isLoadingWeather = false);
+      }
+    } catch (_) {
+      setState(() => _isLoadingWeather = false);
+    }
   }
 
   void _showLocationWeatherSheet(
@@ -158,6 +209,7 @@ class _MapScreenState extends State<MapScreen> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
+      // Don't dismiss selected point when sheet closes — user can cancel or load
       builder: (_) => SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
@@ -182,7 +234,7 @@ class _MapScreenState extends State<MapScreen> {
                       color: Color(0xFFFF3B30), size: 22),
                   const SizedBox(width: 8),
                   Text(
-                    'Координаты точки',
+                    'Выбранная точка',
                     style: TextStyle(
                       color: isDark ? Colors.white : Colors.black,
                       fontSize: 18,
@@ -193,50 +245,136 @@ class _MapScreenState extends State<MapScreen> {
               ),
               const SizedBox(height: 6),
               Text(
-                'Широта: ${point.latitude.toStringAsFixed(4)}, Долгота: ${point.longitude.toStringAsFixed(4)}',
+                'Широта: ${point.latitude.toStringAsFixed(4)}, '
+                'Долгота: ${point.longitude.toStringAsFixed(4)}',
                 style: TextStyle(
                   color: isDark ? Colors.white70 : Colors.black54,
                   fontSize: 14,
                 ),
               ),
               const SizedBox(height: 18),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.cloud_download, color: Colors.white),
-                  label: const Text(
-                    'Загрузить погоду в этой точке',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF007AFF),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        setState(() => _selectedPoint = null);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor:
+                            isDark ? Colors.white70 : Colors.black54,
+                        side: BorderSide(
+                          color: isDark ? Colors.white24 : Colors.black12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      child: const Text('Отмена'),
                     ),
                   ),
-                  onPressed: () async {
-                    Navigator.pop(context);
-                    final homeVm = context.read<HomeViewModel>();
-                    await homeVm.loadWeatherByCoords(
-                        point.latitude, point.longitude);
-                    if (homeVm.weather != null && context.mounted) {
-                      context
-                          .read<ForecastViewModel>()
-                          .loadForecast(homeVm.weather!.cityName);
-                      context.go('/home');
-                    }
-                  },
-                ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    flex: 2,
+                    child: ElevatedButton.icon(
+                      icon:
+                          const Icon(Icons.cloud_download, color: Colors.white),
+                      label: const Text(
+                        'Загрузить погоду',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF007AFF),
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        minimumSize: const Size.fromHeight(50),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _loadWeatherForPoint(context, point);
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Banner shown at bottom of map when a point is selected
+class _SelectedPointBanner extends StatelessWidget {
+  const _SelectedPointBanner({
+    required this.point,
+    required this.isDark,
+    required this.onClear,
+    required this.onLoad,
+  });
+
+  final LatLng point;
+  final bool isDark;
+  final VoidCallback onClear;
+  final VoidCallback onLoad;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: isDark
+            ? const Color(0xFF1C1C1E).withValues(alpha: 0.95)
+            : Colors.white.withValues(alpha: 0.95),
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.18),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.place, color: Color(0xFFFF3B30), size: 20),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              '${point.latitude.toStringAsFixed(3)}, '
+              '${point.longitude.toStringAsFixed(3)}',
+              style: TextStyle(
+                color: isDark ? Colors.white : Colors.black87,
+                fontSize: 13,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: onLoad,
+            style: TextButton.styleFrom(
+              foregroundColor: const Color(0xFF007AFF),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+            ),
+            child: const Text('Погода', style: TextStyle(fontSize: 13)),
+          ),
+          GestureDetector(
+            onTap: onClear,
+            child: Icon(
+              Icons.close,
+              size: 18,
+              color: isDark ? Colors.white54 : Colors.black38,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -334,6 +472,18 @@ class _MapLegend extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               'Избранные',
+              style: TextStyle(
+                fontSize: 12,
+                color: isDark ? Colors.white : Colors.black87,
+              ),
+            ),
+          ]),
+          const SizedBox(height: 4),
+          Row(children: [
+            const Icon(Icons.place, color: Color(0xFFFF3B30), size: 16),
+            const SizedBox(width: 4),
+            Text(
+              'Выбранная точка',
               style: TextStyle(
                 fontSize: 12,
                 color: isDark ? Colors.white : Colors.black87,
