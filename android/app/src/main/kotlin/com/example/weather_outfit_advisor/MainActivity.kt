@@ -1,17 +1,18 @@
 package com.example.weather_outfit_advisor
 
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.BatteryManager
+import android.location.LocationManager
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
 
-    private val CHANNEL = "com.example.weather_outfit_advisor/device_info"
+    private val CHANNEL = "com.example.weather_outfit_advisor/native_weather_tools"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -19,38 +20,37 @@ class MainActivity : FlutterActivity() {
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
             .setMethodCallHandler { call, result ->
                 when (call.method) {
-                    "getBatteryLevel" -> {
-                        val level = getBatteryLevel()
-                        if (level != -1) {
-                            result.success(level)
-                        } else {
-                            result.error("UNAVAILABLE", "Уровень заряда батареи недоступен", null)
-                        }
+                    "isGpsLocationEnabled" -> {
+                        val locationManager = getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+                        val isGpsEnabled = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER) ?: false
+                        val isNetworkEnabled = locationManager?.isProviderEnabled(LocationManager.NETWORK_PROVIDER) ?: false
+                        result.success(isGpsEnabled || isNetworkEnabled)
+                    }
+                    "vibrateWeatherAlert" -> {
+                        triggerWeatherVibration()
+                        result.success(true)
                     }
                     "getDeviceModel" -> {
                         result.success("${Build.MANUFACTURER} ${Build.MODEL}")
-                    }
-                    "getAndroidVersion" -> {
-                        result.success(Build.VERSION.RELEASE)
                     }
                     else -> result.notImplemented()
                 }
             }
     }
 
-    private fun getBatteryLevel(): Int {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val batteryManager = getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-            batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-        } else {
-            val intent = registerReceiver(
-                null,
-                IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-            )
-            val level = intent?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: -1
-            val scale = intent?.getIntExtra(BatteryManager.EXTRA_SCALE, -1) ?: -1
-            if (level == -1 || scale == -1) -1
-            else (level * 100 / scale.toFloat()).toInt()
+    private fun triggerWeatherVibration() {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val vibratorManager = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager
+                val vibrator = vibratorManager?.defaultVibrator
+                vibrator?.vibrate(VibrationEffect.createOneShot(120, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                @Suppress("DEPRECATION")
+                val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+                @Suppress("DEPRECATION")
+                vibrator?.vibrate(120)
+            }
+        } catch (_: Exception) {
         }
     }
 }

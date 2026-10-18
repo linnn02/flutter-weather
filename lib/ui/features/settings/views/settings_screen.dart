@@ -15,9 +15,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  int? _batteryLevel;
+  bool _isGpsActive = true;
   String? _deviceModel;
-  String? _androidVersion;
   bool _loadingDeviceInfo = false;
 
   @override
@@ -28,14 +27,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _loadDeviceInfo() async {
     setState(() => _loadingDeviceInfo = true);
-    final battery = await DeviceInfoService.getBatteryLevel();
-    final model = await DeviceInfoService.getDeviceModel();
-    final version = await DeviceInfoService.getAndroidVersion();
+    final gps = await NativeWeatherToolsService.isGpsLocationEnabled();
+    final model = await NativeWeatherToolsService.getDeviceModel();
     if (mounted) {
       setState(() {
-        _batteryLevel = battery;
+        _isGpsActive = gps;
         _deviceModel = model;
-        _androidVersion = version;
         _loadingDeviceInfo = false;
       });
     }
@@ -480,8 +477,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     const SizedBox(height: 18),
 
-                    // Section 5: Device Info (Platform Channel — Неделя 11)
-                    _IosSectionHeader('УСТРОЙСТВО (PLATFORM CHANNEL)',
+                    // Section 5: Геолокационные сервисы (Platform Channel — Неделя 11)
+                    _IosSectionHeader('СИСТЕМНЫЕ СЕРВИСЫ',
                         color: sectionTitleColor),
                     IosGlassCard(
                       padding: const EdgeInsets.all(16),
@@ -495,42 +492,49 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           : Column(
                               children: [
                                 _buildIosInfoRow(
-                                  '🔋 Заряд батареи',
-                                  _batteryLevel != null
-                                      ? '$_batteryLevel%'
-                                      : 'Недоступно',
+                                  '🛰 Статус GPS модуля',
+                                  _isGpsActive ? 'Активен' : 'Отключен',
                                   rowTextColor,
-                                  _batteryLevel != null && _batteryLevel! <= 20
-                                      ? Colors.red
-                                      : rowSubtextColor,
+                                  _isGpsActive ? Colors.green : Colors.orange,
                                 ),
                                 if (_deviceModel != null) ...[
                                   Divider(color: dividerColor, height: 16),
-                                  _buildIosInfoRow('📱 Модель', _deviceModel!,
-                                      rowTextColor, rowSubtextColor),
-                                ],
-                                if (_androidVersion != null) ...[
-                                  Divider(color: dividerColor, height: 16),
                                   _buildIosInfoRow(
-                                      '🤖 Android',
-                                      _androidVersion!,
+                                      '📱 Устройство',
+                                      _deviceModel!,
                                       rowTextColor,
                                       rowSubtextColor),
                                 ],
                                 Divider(color: dividerColor, height: 16),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: TextButton.icon(
-                                    icon: const Icon(Icons.refresh, size: 16),
-                                    label: const Text('Обновить'),
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: const Color(0xFF007AFF),
-                                      padding: EdgeInsets.zero,
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextButton.icon(
+                                      icon:
+                                          const Icon(Icons.vibration, size: 16),
+                                      label: const Text('Тест виброотклика'),
+                                      style: TextButton.styleFrom(
+                                        foregroundColor:
+                                            const Color(0xFF007AFF),
+                                        padding: EdgeInsets.zero,
+                                      ),
+                                      onPressed: () async {
+                                        await NativeWeatherToolsService
+                                            .vibrateWeatherAlert();
+                                      },
                                     ),
-                                    onPressed: _loadDeviceInfo,
-                                  ),
+                                    TextButton.icon(
+                                      icon: const Icon(Icons.refresh, size: 16),
+                                      label: const Text('Проверить'),
+                                      style: TextButton.styleFrom(
+                                        foregroundColor:
+                                            const Color(0xFF007AFF),
+                                        padding: EdgeInsets.zero,
+                                      ),
+                                      onPressed: _loadDeviceInfo,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

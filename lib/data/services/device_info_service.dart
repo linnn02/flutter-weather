@@ -1,25 +1,28 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Service to call native Android/iOS platform code via MethodChannel.
 /// Реализует Неделю 11: нативные возможности через Platform Channel.
-class DeviceInfoService {
+/// Нативные погодные функции: проверка аппаратного GPS и тактильный отклик погоды.
+class NativeWeatherToolsService {
   static const _channel =
-      MethodChannel('com.example.weather_outfit_advisor/device_info');
+      MethodChannel('com.example.weather_outfit_advisor/native_weather_tools');
 
-  /// Get battery level (0–100). Returns null if unavailable.
-  static Future<int?> getBatteryLevel() async {
+  /// Check if GPS location sensor is active on device
+  static Future<bool> isGpsLocationEnabled() async {
     try {
-      final level = await _channel.invokeMethod<int>('getBatteryLevel');
-      return level;
-    } on PlatformException catch (e) {
-      if (kDebugMode) {
-        debugPrint('Battery level error: ${e.message}');
-      }
-      return null;
-    } on MissingPluginException {
-      // Running on desktop/web — not supported
-      return null;
+      final enabled = await _channel.invokeMethod<bool>('isGpsLocationEnabled');
+      return enabled ?? false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Trigger native haptic/vibration feedback for weather updates
+  static Future<void> vibrateWeatherAlert() async {
+    try {
+      await _channel.invokeMethod<void>('vibrateWeatherAlert');
+    } catch (_) {
+      // Gracefully ignore on unsupported platforms
     }
   }
 
@@ -27,15 +30,6 @@ class DeviceInfoService {
   static Future<String?> getDeviceModel() async {
     try {
       return await _channel.invokeMethod<String>('getDeviceModel');
-    } catch (_) {
-      return null;
-    }
-  }
-
-  /// Get Android version string (e.g. "13").
-  static Future<String?> getAndroidVersion() async {
-    try {
-      return await _channel.invokeMethod<String>('getAndroidVersion');
     } catch (_) {
       return null;
     }
