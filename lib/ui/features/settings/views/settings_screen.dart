@@ -1,13 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import 'package:weather_outfit_advisor/data/services/device_info_service.dart';
 import 'package:weather_outfit_advisor/ui/features/settings/view_models/settings_view_model.dart';
 import 'package:weather_outfit_advisor/ui/features/auth/auth_view_model.dart';
 import 'package:weather_outfit_advisor/ui/core/widgets/ios_glass_card.dart';
 
 /// Settings screen designed with iOS Inset Grouped style, fully adaptive to Light & Dark themes
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  int? _batteryLevel;
+  String? _deviceModel;
+  String? _androidVersion;
+  bool _loadingDeviceInfo = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDeviceInfo();
+  }
+
+  Future<void> _loadDeviceInfo() async {
+    setState(() => _loadingDeviceInfo = true);
+    final battery = await DeviceInfoService.getBatteryLevel();
+    final model = await DeviceInfoService.getDeviceModel();
+    final version = await DeviceInfoService.getAndroidVersion();
+    if (mounted) {
+      setState(() {
+        _batteryLevel = battery;
+        _deviceModel = model;
+        _androidVersion = version;
+        _loadingDeviceInfo = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -445,6 +477,63 @@ class SettingsScreen extends StatelessWidget {
                               rowSubtextColor),
                         ],
                       ),
+                    ),
+                    const SizedBox(height: 18),
+
+                    // Section 5: Device Info (Platform Channel — Неделя 11)
+                    _IosSectionHeader('УСТРОЙСТВО (PLATFORM CHANNEL)',
+                        color: sectionTitleColor),
+                    IosGlassCard(
+                      padding: const EdgeInsets.all(16),
+                      child: _loadingDeviceInfo
+                          ? const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(8),
+                                child: CircularProgressIndicator(),
+                              ),
+                            )
+                          : Column(
+                              children: [
+                                _buildIosInfoRow(
+                                  '🔋 Заряд батареи',
+                                  _batteryLevel != null
+                                      ? '$_batteryLevel%'
+                                      : 'Недоступно',
+                                  rowTextColor,
+                                  _batteryLevel != null && _batteryLevel! <= 20
+                                      ? Colors.red
+                                      : rowSubtextColor,
+                                ),
+                                if (_deviceModel != null) ...[
+                                  Divider(color: dividerColor, height: 16),
+                                  _buildIosInfoRow('📱 Модель', _deviceModel!,
+                                      rowTextColor, rowSubtextColor),
+                                ],
+                                if (_androidVersion != null) ...[
+                                  Divider(color: dividerColor, height: 16),
+                                  _buildIosInfoRow(
+                                      '🤖 Android',
+                                      _androidVersion!,
+                                      rowTextColor,
+                                      rowSubtextColor),
+                                ],
+                                Divider(color: dividerColor, height: 16),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: TextButton.icon(
+                                    icon: const Icon(Icons.refresh, size: 16),
+                                    label: const Text('Обновить'),
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: const Color(0xFF007AFF),
+                                      padding: EdgeInsets.zero,
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    onPressed: _loadDeviceInfo,
+                                  ),
+                                ),
+                              ],
+                            ),
                     ),
                     const SizedBox(height: 100),
                   ],
