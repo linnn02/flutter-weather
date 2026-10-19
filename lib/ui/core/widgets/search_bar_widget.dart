@@ -121,15 +121,18 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                   ),
                 )
               else if (widget.onRefresh != null)
-                GestureDetector(
-                  onTap: widget.onRefresh,
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 8),
-                    padding: const EdgeInsets.all(4),
-                    child: const Icon(
-                      Icons.refresh,
-                      size: 18,
-                      color: Colors.white70,
+                Tooltip(
+                  message: 'Обновить погоду',
+                  child: GestureDetector(
+                    onTap: widget.onRefresh,
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      padding: const EdgeInsets.all(4),
+                      child: const Icon(
+                        Icons.refresh,
+                        size: 18,
+                        color: Colors.white70,
+                      ),
                     ),
                   ),
                 ),
