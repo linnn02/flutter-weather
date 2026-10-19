@@ -78,6 +78,26 @@ Weather & Outfit Advisor — это мобильное приложение, к�
 - Настроена отправка push-уведомлений через Firebase Cloud Messaging (FCM) в дополнение к локальным оповещениям.
 - Сохранен оффлайн-fallback: неавторизованные пользователи и при отсутствии интернета используют SharedPreferences.
 
+## Геолокация и выбор точки (Неделя 9-10)
+- Реализовано определение точного города через обратный геокодинг (geocoding).
+- Запрос погоды по координатам выполняется напрямую в OpenWeather API без ошибок 404 для любой точки планеты.
+- На интерактивной карте реализован выбор произвольной точки с сохранением маркера и загрузкой актуального прогноза.
+
+## Нативные платформенные каналы (Неделя 11)
+- Реализован MethodChannel (`com.example.weather_outfit_advisor/device_info`) на языке Kotlin в `MainActivity.kt`.
+- Написан Dart-сервис `DeviceInfoService` для взаимодействия с нативным кодом Android.
+- На экране настроек отображаются реальный уровень заряда батареи, модель устройства и версия Android.
+
+## CI/CD и автоматизация (Неделя 12)
+- Настроен GitHub Actions workflow (`.github/workflows/flutter.yml`).
+- Автоматически проверяются форматирование (`dart format`), статический анализ (`dart analyze`) и прохождение всех тестов (`flutter test`).
+
+## Тестирование и надежность (Неделя 13)
+- Написаны unit-тесты для ViewModel (`AuthViewModel`, `FavoritesViewModel`, `ForecastViewModel`, `HomeViewModel`), репозиториев и моделей.
+- Добавлены виджет-тесты ключевых компонентов (`SearchBarWidget`, `WeatherDetailsRow`, `OutfitPreviewCard`).
+- Добавлен сквозной интеграционный тест приложения (`integration_test/app_test.dart`).
+- Написаны тесты для платформенного канала `DeviceInfoService`.
+
 ## Как запустить проект (Быстрый старт)
 1. Склонировать репозиторий себе на компьютер:
    git clone https://github.com/linnn02/flutter-weather.git
