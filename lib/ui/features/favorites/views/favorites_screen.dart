@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_outfit_advisor/ui/features/favorites/view_models/favorites_view_model.dart';
+import 'package:weather_outfit_advisor/ui/features/forecast/view_models/forecast_view_model.dart';
 import 'package:weather_outfit_advisor/ui/features/home/view_models/home_view_model.dart';
 import 'package:weather_outfit_advisor/ui/features/settings/view_models/settings_view_model.dart';
 import 'package:weather_outfit_advisor/ui/core/theme/app_theme.dart';
@@ -191,11 +192,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                                   color: Colors.transparent,
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(16),
-                                    onTap: () {
-                                      context
-                                          .read<HomeViewModel>()
-                                          .loadWeatherByCity(city);
-                                      context.go('/home');
+                                    onTap: () async {
+                                      final homeVm =
+                                          context.read<HomeViewModel>();
+                                      final forecastVm =
+                                          context.read<ForecastViewModel>();
+                                      await homeVm.loadWeatherByCity(city);
+                                      await forecastVm.loadForecast(city);
+                                      if (context.mounted) {
+                                        context.go('/home');
+                                      }
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(16),

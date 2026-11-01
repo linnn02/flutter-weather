@@ -26,7 +26,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final homeVm = context.read<HomeViewModel>();
-      await homeVm.loadWeatherByLocation();
+      // Если погода уже загружена (например, перешли из городов или карты), не перезаписываем её принудительно
+      if (homeVm.weather == null) {
+        await homeVm.loadWeatherByLocation();
+      }
       if (!mounted) return;
       if (homeVm.weather != null) {
         context
@@ -83,7 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
                 child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics(),
+                  ),
                   slivers: [
                     // Search bar pinned or top
                     SliverToBoxAdapter(
@@ -93,6 +98,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           onSearch: (city) {
                             vm.loadWeatherByCity(city);
                             forecastVm.loadForecast(city);
+                          },
+                          onRefresh: () async {
+                            await vm.refresh();
+                            if (context.mounted && vm.weather != null) {
+                              await forecastVm
+                                  .loadForecast(vm.weather!.cityName);
+                            }
                           },
                         ),
                       ),

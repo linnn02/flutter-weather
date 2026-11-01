@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 
 /// Apple iOS-style blurred pill search bar with cancel and clear capabilities
 class SearchBarWidget extends StatefulWidget {
-  const SearchBarWidget({super.key, required this.onSearch});
+  const SearchBarWidget({
+    super.key,
+    required this.onSearch,
+    this.onRefresh,
+  });
 
   final void Function(String city) onSearch;
+  final VoidCallback? onRefresh;
 
   @override
   State<SearchBarWidget> createState() => _SearchBarWidgetState();
@@ -113,6 +118,19 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                     margin: const EdgeInsets.only(right: 8),
                     child: const Icon(Icons.arrow_forward_ios,
                         size: 14, color: Colors.white),
+                  ),
+                )
+              else if (widget.onRefresh != null)
+                GestureDetector(
+                  onTap: widget.onRefresh,
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    padding: const EdgeInsets.all(4),
+                    child: const Icon(
+                      Icons.refresh,
+                      size: 18,
+                      color: Colors.white70,
+                    ),
                   ),
                 ),
             ],
