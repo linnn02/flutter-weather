@@ -137,4 +137,50 @@ class WeatherModel {
   }
 
   String get iconUrl => 'https://openweathermap.org/img/wn/$weatherIcon@2x.png';
+
+  WeatherModel copyWith({
+    String? cityName,
+    String? countryCode,
+    double? latitude,
+    double? longitude,
+    double? temperature,
+    double? feelsLike,
+    double? tempMin,
+    double? tempMax,
+    int? humidity,
+    double? windSpeed,
+    int? windDegree,
+    int? visibility,
+    int? pressure,
+    int? clouds,
+    String? weatherMain,
+    String? weatherDescription,
+    String? weatherIcon,
+    int? sunrise,
+    int? sunset,
+    DateTime? timestamp,
+  }) {
+    return WeatherModel(
+      cityName: cityName ?? this.cityName,
+      countryCode: countryCode ?? this.countryCode,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      temperature: temperature ?? this.temperature,
+      feelsLike: feelsLike ?? this.feelsLike,
+      tempMin: tempMin ?? this.tempMin,
+      tempMax: tempMax ?? this.tempMax,
+      humidity: humidity ?? this.humidity,
+      windSpeed: windSpeed ?? this.windSpeed,
+      windDegree: windDegree ?? this.windDegree,
+      visibility: visibility ?? this.visibility,
+      pressure: pressure ?? this.pressure,
+      clouds: clouds ?? this.clouds,
+      weatherMain: weatherMain ?? this.weatherMain,
+      weatherDescription: weatherDescription ?? this.weatherDescription,
+      weatherIcon: weatherIcon ?? this.weatherIcon,
+      sunrise: sunrise ?? this.sunrise,
+      sunset: sunset ?? this.sunset,
+      timestamp: timestamp ?? this.timestamp,
+    );
+  }
 }

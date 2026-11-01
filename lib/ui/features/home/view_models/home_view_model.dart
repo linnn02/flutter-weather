@@ -34,34 +34,33 @@ class HomeViewModel extends ChangeNotifier {
   String get searchCity => _searchCity;
 
   /// Load weather for current GPS location.
-  /// Uses reverse geocoding to get the city name (not district).
   Future<void> loadWeatherByLocation() async {
     _setState(HomeState.loading);
 
     try {
       final position = await _locationService.getCurrentPosition();
       if (position != null) {
-        // Try to resolve the proper city name via reverse geocoding first
-        final cityName = await _locationService.getCityNameByCoords(
+        // 1. Всегда запрашиваем погоду напрямую по координатам (OpenWeather гарантированно найдет точку)
+        var weatherModel = await _weatherRepository.getCurrentWeatherByCoords(
           position.latitude,
           position.longitude,
         );
 
-        if (cityName != null && cityName.isNotEmpty) {
-          // Load by resolved city name so the display name is correct
-          _weather = await _weatherRepository.getCurrentWeather(cityName);
-        } else {
-          // Fallback: load by raw coordinates (city name comes from OWM API)
-          _weather = await _weatherRepository.getCurrentWeatherByCoords(
-            position.latitude,
-            position.longitude,
-          );
+        // 2. Пробуем получить локальное имя города через обратный геокодинг, если оно есть
+        final geocodedCity = await _locationService.getCityNameByCoords(
+          position.latitude,
+          position.longitude,
+        );
+
+        if (geocodedCity != null && geocodedCity.trim().isNotEmpty) {
+          weatherModel = weatherModel.copyWith(cityName: geocodedCity.trim());
         }
+
+        _weather = weatherModel;
         _outfit = _outfitAdvisor.getRecommendation(_weather!);
         _setState(HomeState.success);
       } else {
         // На десктопе Windows GPS датчик обычно отсутствует.
-        // Загружаем актуальную погоду из сети для последнего города пользователя (или Алматы)
         final lastCity =
             _weatherRepository.getLastCachedWeather()?.cityName ?? 'Алматы';
         await loadWeatherByCity(lastCity);
@@ -82,13 +81,17 @@ class HomeViewModel extends ChangeNotifier {
     _setState(HomeState.loading);
 
     try {
-      // Try to resolve city name via reverse geocoding first
-      final cityName = await _locationService.getCityNameByCoords(lat, lon);
-      if (cityName != null && cityName.isNotEmpty) {
-        _weather = await _weatherRepository.getCurrentWeather(cityName);
-      } else {
-        _weather = await _weatherRepository.getCurrentWeatherByCoords(lat, lon);
+      // 1. Запрашиваем по координатам — это всегда успешно возвращает данные для любой точки Земли
+      var weatherModel =
+          await _weatherRepository.getCurrentWeatherByCoords(lat, lon);
+
+      // 2. Если есть имя города из геокодинга, подставляем его
+      final geocodedCity = await _locationService.getCityNameByCoords(lat, lon);
+      if (geocodedCity != null && geocodedCity.trim().isNotEmpty) {
+        weatherModel = weatherModel.copyWith(cityName: geocodedCity.trim());
       }
+
+      _weather = weatherModel;
       _outfit = _outfitAdvisor.getRecommendation(_weather!);
       _setState(HomeState.success);
     } catch (e) {
